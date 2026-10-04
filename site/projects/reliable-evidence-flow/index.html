@@ -1,0 +1,1470 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Reliable Evidence Flow: a Granite-based RAG research prototype for evidence preservation, conservative filtering and verified claim attribution."><title>Reliable Evidence Flow — Jiaxi You</title>
+<link rel="stylesheet" href="../../assets/styles/reliable-evidence-flow.css">
+<link rel="canonical" href="https://jiaxiyou-ctrl.github.io/projects/reliable-evidence-flow/">
+</head>
+<body>
+<a class="skip-link" href="#project-content">Skip to project</a>
+<header class="project-header"><div class="header-inner"><a class="return-link" href="../../#rag-project" data-home-link><span aria-hidden="true">←</span> Jiaxi You <span aria-hidden="true">/</span> Selected Work</a><nav class="project-nav" aria-label="Project sections"><a href="#framework">Method</a><a href="#evaluation">Results</a><a href="#next-question">Outlook</a></nav></div></header>
+<main class="project-main" id="project-content">
+ <header class="project-hero rag-hero"><p class="eyebrow"><span>Reliable AI</span><span>Ongoing research</span></p><h1><span class="hero-title-line">Reliable Evidence Flow</span><span class="hero-title-line">for Enterprise RAG</span></h1><p class="hero-summary">We introduce Reliable Evidence Flow, a Granite-based RAG framework that protects useful evidence and checks generated claims against their sources.</p><p class="affiliation">University of Bristol · In collaboration with IBM</p><div class="hero-links"><a class="text-link report-link" href="../../assets/reports/IBM_Granite_RAG_Final_Report_2026.pdf" type="application/pdf" target="_blank" rel="noopener">Report (PDF) <span class="report-arrow" aria-hidden="true">↗</span></a><a class="text-link" href="#framework">See the approach <span class="link-arrow" aria-hidden="true">↓</span></a><a class="text-link" href="#evaluation">Explore the findings <span class="link-arrow" aria-hidden="true">↓</span></a></div></header>
+ <section class="research-section flow-section" id="framework" aria-labelledby="framework-title">
+  <span class="section-anchor" id="overview" aria-hidden="true"></span><span class="section-anchor" id="research-question" aria-hidden="true"></span>
+  <div class="section-heading"><p class="section-label">01 / The method</p><h2 id="framework-title">Retriever–Selector–Generator</h2></div>
+  <figure class="evidence-flow" data-reveal="complete" aria-labelledby="framework-title">
+   <div class="flow-query" data-flow-cue="question" data-flow-motion="write" style="--cue-at:0ms;--cue-time:160ms"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path pathLength="1" d="m15 15 6 6"/></svg><p>When and where did the Orion pilot begin?</p></div>
+   <div class="flow-canvas">
+    <div class="flow-step" style="--step:0">
+     <h3 data-flow-cue="module-1" style="--cue-at:175ms;--cue-time:95ms"><span>01</span> Retriever</h3>
+     <svg class="flow-drawing retrieval-drawing" viewBox="0 0 320 280" role="img" aria-labelledby="retrieve-title retrieve-desc">
+      <title id="retrieve-title">Hybrid retrieval</title><desc id="retrieve-desc">BM25 retrieves 1,000 candidates from the collection. Granite reranks the same candidates semantically. Reciprocal rank fusion combines both rankings and sends the top ten passages to the selector.</desc>
+      <defs><marker id="arrow-blue" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path pathLength="1" d="M1 1 7 4 1 7" fill="none" stroke="#326baa" stroke-width="1.3" /></marker></defs>
+      <g data-flow-cue="source-documents" data-flow-motion="paper" style="--cue-at:190ms;--cue-time:105ms"><g class="flow-doc-stack"><path pathLength="1" d="M9 87h35l10 10v53H9Z" fill="#dce8f5" stroke="#326baa" /><path pathLength="1" d="M3 95h35l10 10v53H3Z" fill="#f4f8fd" stroke="#326baa" /><path pathLength="1" d="M14 111h21m-21 9h21m-21 9h16m-16 9h20" stroke="#8daed3" stroke-width="2" /></g>
+      <text x="26" y="181" text-anchor="middle" class="diagram-small">Sources</text>
+      </g><path pathLength="1" class="flow-trace" d="M54 121H82" marker-end="url(#arrow-blue)" data-flow-cue="query-to-bm25" data-flow-motion="draw" style="--cue-at:270ms;--cue-time:65ms" />
+      <g data-flow-cue="bm25-retrieval" data-flow-motion="arrive" style="--cue-at:315ms;--cue-time:95ms"><rect x="89" y="90" width="104" height="60" rx="5" fill="#e0ecfa" stroke="#326baa" />
+      <text x="141" y="116" text-anchor="middle" class="diagram-node">BM25</text><text x="141" y="135" text-anchor="middle" class="diagram-small">keyword</text>
+      </g><path pathLength="1" class="flow-trace" d="M141 150v55" marker-end="url(#arrow-blue)" data-flow-cue="candidate-transfer" data-flow-motion="draw" style="--cue-at:405ms;--cue-time:75ms" />
+      <text x="153" y="182" class="diagram-small" data-flow-cue="candidate-count" data-flow-motion="arrive" style="--cue-at:420ms;--cue-time:80ms">1,000</text>
+      <g data-flow-cue="granite-reranking" data-flow-motion="arrive" style="--cue-at:475ms;--cue-time:100ms"><rect x="89" y="211" width="104" height="59" rx="5" fill="#edf3fc" stroke="#7398c5" />
+      <text x="141" y="236" text-anchor="middle" class="diagram-node">Granite</text><text x="141" y="255" text-anchor="middle" class="diagram-small">semantic</text>
+      </g><path pathLength="1" class="flow-trace" d="M193 120C220 120 230 139 241 147M193 240C220 240 224 191 241 184" data-flow-cue="rank-fusion-inputs" data-flow-motion="draw" style="--cue-at:550ms;--cue-time:80ms" />
+      <g data-flow-cue="rank-fusion" data-flow-motion="arrive" style="--cue-at:610ms;--cue-time:80ms"><circle cx="264" cy="165" r="29" fill="#326baa" />
+      <text x="264" y="170" text-anchor="middle" fill="white" class="diagram-node">RRF</text>
+      </g><path pathLength="1" class="flow-trace flow-exit" d="M293 165h23" marker-end="url(#arrow-blue)" data-flow-cue="retrieval-output" data-flow-motion="draw" style="--cue-at:675ms;--cue-time:60ms" />
+      <text x="264" y="213" text-anchor="middle" class="diagram-small" data-flow-cue="top-ten" data-flow-motion="arrive" style="--cue-at:650ms;--cue-time:85ms">Top 10</text>
+     </svg>
+     <p class="flow-keyword" data-flow-cue="mechanism-1" style="--cue-at:270ms;--cue-time:95ms">Hybrid retrieval</p>
+    </div>
+    <div class="flow-step" style="--step:1">
+     <h3 data-flow-cue="module-2" style="--cue-at:735ms;--cue-time:95ms"><span>02</span> Selector</h3>
+     <svg class="flow-drawing selection-drawing" viewBox="0 0 320 280" role="img" aria-labelledby="select-title select-desc">
+      <title id="select-title">Conservative evidence selection</title><desc id="select-desc">Illustrative passages E1, April 2025, and E2, Bristol, are protected. E3, a misleading September 2025 draft, has high harm and low protection and is removed. Neutral E4, logistics, is retained. These are qualitative illustration decisions, not measured outputs.</desc>
+      <defs><marker id="arrow-coral" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path pathLength="1" d="M1 1 7 4 1 7" fill="none" stroke="#b94e3b" stroke-width="1.3" /></marker></defs>
+      <g class="evidence-paper paper-blue" data-flow-cue="candidate-e1" data-flow-motion="paper" style="--cue-at:745ms;--cue-time:85ms"><path pathLength="1" d="M8 28h143l11 11v36H8Z" /><path pathLength="1" d="M151 28v11h11" class="paper-fold" /><text x="20" y="57" class="diagram-id">E1</text><text x="55" y="57" class="diagram-fact">Apr 2025</text></g>
+      <g class="evidence-paper paper-green" data-flow-cue="candidate-e2" data-flow-motion="paper" style="--cue-at:775ms;--cue-time:85ms"><path pathLength="1" d="M8 87h143l11 11v36H8Z" /><path pathLength="1" d="M151 87v11h11" class="paper-fold" /><text x="20" y="116" class="diagram-id">E2</text><text x="55" y="116" class="diagram-fact">Bristol</text></g>
+      <g class="evidence-paper paper-coral" data-flow-cue="candidate-e3" data-flow-motion="paper" style="--cue-at:805ms;--cue-time:85ms"><path pathLength="1" d="M8 146h143l11 11v36H8Z" /><path pathLength="1" d="M151 146v11h11" class="paper-fold" /><text x="20" y="175" class="diagram-id">E3</text><text x="55" y="175" class="diagram-fact">Sep 2025</text></g>
+      <g class="evidence-paper paper-neutral" data-flow-cue="candidate-e4" data-flow-motion="paper" style="--cue-at:835ms;--cue-time:85ms"><path pathLength="1" d="M8 205h143l11 11v36H8Z" /><path pathLength="1" d="M151 205v11h11" class="paper-fold" /><text x="20" y="234" class="diagram-id">E4</text><text x="55" y="234" class="diagram-fact">Logistics</text></g>
+      <g class="keep-badges" fill="none" stroke-width="1.6" data-flow-cue="evidence-protection" data-flow-motion="stamp" style="--cue-at:935ms;--cue-time:90ms"><path pathLength="1" d="m175 45 7 2v8c0 5-7 8-7 8s-7-3-7-8v-8Z" stroke="#326baa" fill="#e0ecfa" /><path pathLength="1" d="m172 53 3 3 4-5" stroke="#326baa" /><path pathLength="1" d="m175 104 7 2v8c0 5-7 8-7 8s-7-3-7-8v-8Z" stroke="#187565" fill="#dcefe8" /><path pathLength="1" d="m172 112 3 3 4-5" stroke="#187565" /><path pathLength="1" d="m169 228 5 5 8-10" stroke="#71808b" /></g>
+      <path pathLength="1" d="M54 170h87" stroke="#b94e3b" data-flow-cue="misleading-passage-rejected" data-flow-motion="draw" style="--cue-at:985ms;--cue-time:90ms" /><g class="flow-trace keep-routes"><path pathLength="1" d="M188 53C219 53 219 119 255 119" stroke="#326baa" data-flow-cue="kept-evidence-route-0" data-flow-motion="draw" style="--cue-at:1000ms;--cue-time:95ms" /><path pathLength="1" d="M188 112C219 112 224 129 255 129" stroke="#187565" data-flow-cue="kept-evidence-route-1" data-flow-motion="draw" style="--cue-at:1000ms;--cue-time:95ms" /><path pathLength="1" d="M188 228C222 228 218 139 255 139" stroke="#87939e" data-flow-cue="kept-evidence-route-2" data-flow-motion="draw" style="--cue-at:1000ms;--cue-time:95ms" /><path pathLength="1" d="M255 119Q269 129 255 139M268 129h47" stroke="#326baa" marker-end="url(#arrow-blue)" data-flow-cue="kept-evidence-route-3" data-flow-motion="draw" style="--cue-at:1000ms;--cue-time:95ms" /></g>
+      <text x="276" y="102" text-anchor="middle" class="diagram-small keep-label" data-flow-cue="keep-decision" data-flow-motion="arrive" style="--cue-at:1025ms;--cue-time:75ms">Keep</text>
+      <path pathLength="1" class="flow-trace remove-route" d="M164 171h74q12 0 12 14v22" marker-end="url(#arrow-coral)" data-flow-cue="rejection-route" data-flow-motion="draw" style="--cue-at:1000ms;--cue-time:95ms" />
+      <g class="removed-bin" stroke="#b94e3b" stroke-width="1.7" fill="none" data-flow-cue="discarded-evidence" data-flow-motion="arrive" style="--cue-at:1040ms;--cue-time:80ms"><path pathLength="1" d="M239 219h23m-20 0 2 24h14l2-24m-14-5h11m-7 9v14m5-14v14" /></g>
+      <text x="251" y="267" text-anchor="middle" class="diagram-small remove-label" data-flow-cue="remove-decision" data-flow-motion="arrive" style="--cue-at:1040ms;--cue-time:80ms">Remove</text>
+     </svg>
+     <p class="flow-keyword" data-flow-cue="mechanism-2" style="--cue-at:830ms;--cue-time:95ms">Protect–Harm</p>
+    </div>
+    <div class="flow-step" style="--step:2">
+     <h3 data-flow-cue="module-3" style="--cue-at:1110ms;--cue-time:95ms"><span>03</span> Generator</h3>
+     <svg class="flow-drawing verification-drawing" viewBox="0 0 320 280" role="img" aria-labelledby="verify-title verify-desc">
+      <title id="verify-title">Claim-level verification</title><desc id="verify-desc">Granite drafts the answer. TRUE checks each claim against selected evidence. The April 2025 claim cites supporting source E1. Bristol is supported by E2. A 2026 rollout claim is retained but labelled unverified because no support is established.</desc>
+      <text x="58" y="36" class="diagram-node" data-flow-cue="answer-generator" data-flow-motion="arrive" style="--cue-at:1120ms;--cue-time:80ms">Granite</text><g data-flow-cue="answer-sheet" data-flow-motion="paper" style="--cue-at:1160ms;--cue-time:80ms"><path pathLength="1" class="answer-paper" d="M18 65h256l21 21v190H18Z" /><path pathLength="1" d="M274 65v21h21" fill="none" stroke="#aec4dc" />
+      <text x="36" y="89" class="diagram-tiny">ANSWER</text>
+      </g><path pathLength="1" d="M36 158h242" stroke="#e0e7ed" data-flow-cue="answer-rule-1" data-flow-motion="draw" style="--cue-at:1230ms;--cue-time:70ms" />
+      <path pathLength="1" d="M36 207h242" stroke="#e0e7ed" data-flow-cue="answer-rule-2" data-flow-motion="draw" style="--cue-at:1255ms;--cue-time:70ms" />
+      <text x="58" y="124" class="diagram-answer" data-flow-cue="draft-claim-1" data-flow-motion="write" style="--cue-at:1210ms;--cue-time:70ms">April 2025</text><text x="58" y="190" class="diagram-answer" data-flow-cue="draft-claim-2" data-flow-motion="write" style="--cue-at:1235ms;--cue-time:70ms">Bristol</text><text x="58" y="237" class="diagram-answer" data-flow-cue="draft-claim-3" data-flow-motion="write" style="--cue-at:1260ms;--cue-time:70ms">2026 rollout</text><path pathLength="1" class="flow-trace" d="M123 31h38" marker-end="url(#arrow-blue)" data-flow-cue="claims-to-verifier" data-flow-motion="draw" style="--cue-at:1300ms;--cue-time:70ms" /><g data-flow-cue="true-verification" data-flow-motion="stamp" style="--cue-at:1360ms;--cue-time:60ms"><circle cx="187" cy="29" r="11" fill="#dcefe8" stroke="#187565" /><path pathLength="1" d="m181 29 4 4 8-9" fill="none" stroke="#187565" stroke-width="1.7" /><text x="207" y="36" class="diagram-node">TRUE</text>
+      </g><g data-flow-cue="verified-e1" data-flow-motion="stamp" style="--cue-at:1420ms;--cue-time:70ms"><circle cx="39" cy="118" r="9" fill="#187565" /><path pathLength="1" d="m35 118 3 3 5-6" stroke="#fff" stroke-width="1.5" fill="none" /><text x="234" y="124" class="diagram-id blue-ref">[E1]</text></g><g data-flow-cue="verified-e2" data-flow-motion="stamp" style="--cue-at:1425ms;--cue-time:70ms"><circle cx="39" cy="184" r="9" fill="#187565" /><path pathLength="1" d="m35 184 3 3 5-6" stroke="#fff" stroke-width="1.5" fill="none" /><text x="234" y="190" class="diagram-id green-ref">[E2]</text></g><g data-flow-cue="unverified-status" data-flow-motion="stamp" style="--cue-at:1430ms;--cue-time:70ms"><circle cx="39" cy="232" r="9" fill="#f7e2d8" stroke="#b94e3b" /><text x="39" y="236" text-anchor="middle" fill="#a74431" font-size="12">?</text><text x="58" y="259" class="diagram-id coral-ref">[unverified]</text></g></svg>
+     <p class="flow-keyword" data-flow-cue="mechanism-3" style="--cue-at:1205ms;--cue-time:95ms">Verify-and-Label</p>
+    </div>
+   </div>
+  </figure>
+  <div class="flow-details">
+   <div class="flow-rules">
+    <div><h3>Retriever</h3><span class="rule-label">Weighted RRF</span>
+     <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="RRF of evidence e equals the sum over rankings of weight divided by 60 plus rank"><mi mathvariant="normal">RRF</mi><mo>(</mo><mi>e</mi><mo>)</mo><mo>=</mo><munder><mo>∑</mo><mi>r</mi></munder><mfrac><msub><mi>w</mi><mi>r</mi></msub><mrow><mn>60</mn><mo>+</mo><msub><mi mathvariant="normal">rank</mi><mi>r</mi></msub><mo>(</mo><mi>e</mi><mo>)</mo></mrow></mfrac></math>
+     <dl class="rule-key"><div><dt>Candidates</dt><dd>BM25 · Top 1,000</dd></div><div><dt>Re-rank</dt><dd>Granite · same pool</dd></div><div><dt>Output</dt><dd>RRF · Top 10</dd></div></dl>
+     <div class="rule-symbols"><span><i>r</i> = BM25, Granite</span><span><i>wᵣ</i> = fusion weight</span></div>
+    </div>
+    <div><h3>Selector</h3><span class="rule-label">Deletion eligibility</span>
+     <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="Eligible for deletion when harm i is at least t and protection i is at most one minus t"><msub><mi>h</mi><mi>i</mi></msub><mo>≥</mo><mi>t</mi><mo>∧</mo><msub><mi>p</mi><mi>i</mi></msub><mo>≤</mo><mn>1</mn><mo>−</mo><mi>t</mi></math>
+     <dl class="rule-key"><div><dt>Model</dt><dd>DeBERTa · two heads</dd></div><div><dt>Limit</dt><dd>≤ 2 removals / query</dd></div><div><dt>Low harm</dt><dd>Keep</dd></div></dl>
+     <div class="rule-symbols"><span><i>p</i> = protect</span><span><i>h</i> = harm</span><span><i>t</i> = threshold</span></div>
+    </div>
+    <div><h3>Generator</h3><span class="rule-label">Verify-and-Label</span>
+     <div class="rule-outcomes"><div><span>Support found</span><b>→</b><strong>[source]</strong></div><div><span>No support found</span><b>→</b><strong>[unverified]</strong></div></div>
+     <dl class="rule-key"><div><dt>Draft</dt><dd>Granite → atomic claims</dd></div><div><dt>Verify</dt><dd>TRUE · selected evidence</dd></div><div><dt>Search</dt><dd>Cited source → other sources</dd></div></dl>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <section class="research-section" id="evaluation" aria-labelledby="evaluation-title">
+  <div class="section-heading"><p class="section-label">02 / The evidence</p><h2 id="evaluation-title">Stronger citations. A coverage trade-off.</h2><p class="section-intro">Citation precision leads the tested baselines on all three end-to-end datasets. The system still expresses fewer reference facts than the strongest coverage baseline.</p></div>
+  <div class="study">
+   <div class="study-heading"><h3>Whole-system comparison</h3><p class="protocol"><span class="ours-key">Ours</span> vs. four RAG baselines</p></div>
+   <div class="rag-results-overview"><section class="metric-chart-group" aria-labelledby="cp-heading"><h4 id="cp-heading">Citation precision (%) ↑</h4><div class="result-grid"><figure class="result-panel " data-chart><figcaption><h5>KILT–NQ</h5></figcaption><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" viewBox="0 0 331.2 198" version="1.1" class="result-svg" role="group" aria-label="KILT–NQ · Citation precision (%) ↑">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:date>2026-10-01T16:32:53.398485</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="cp-0-figure_1">
+  <g id="cp-0-patch_1">
+   <path d="M 0 198  L 331.2 198  L 331.2 0  L 0 0  L 0 198  z " style="fill: none" />
+  </g>
+  <g id="cp-0-axes_1">
+   <g id="cp-0-patch_2">
+    <path d="M 99.36 166.32  L 291.456 166.32  L 291.456 7.92  L 99.36 7.92  L 99.36 166.32  z " style="fill: none" />
+   </g>
+   <g id="cp-0-matplotlib.axis_1">
+    <g id="cp-0-xtick_1">
+     <g id="cp-0-line2d_1">
+      <path d="M 99.36 166.32  L 99.36 7.92  " clip-path="url(#cp-0-paccfef6c58)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="cp-0-line2d_2" />
+     <g id="cp-0-text_1">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="184.32" transform="rotate(-0 99.36 184.32)">0</text>
+     </g>
+    </g>
+    <g id="cp-0-xtick_2">
+     <g id="cp-0-line2d_3">
+      <path d="M 195.408 166.32  L 195.408 7.92  " clip-path="url(#cp-0-paccfef6c58)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="cp-0-line2d_4" />
+     <g id="cp-0-text_2">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="195.408" y="184.32" transform="rotate(-0 195.408 184.32)">50</text>
+     </g>
+    </g>
+    <g id="cp-0-xtick_3">
+     <g id="cp-0-line2d_5">
+      <path d="M 291.456 166.32  L 291.456 7.92  " clip-path="url(#cp-0-paccfef6c58)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="cp-0-line2d_6" />
+     <g id="cp-0-text_3">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="291.456" y="184.32" transform="rotate(-0 291.456 184.32)">100</text>
+     </g>
+    </g>
+   </g>
+   <g id="cp-0-matplotlib.axis_2">
+    <g id="cp-0-ytick_1">
+     <g id="cp-0-line2d_7" />
+     <g id="cp-0-text_4">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="31.196923" transform="rotate(-0 91.36 31.196923)">BM25</text>
+     </g>
+    </g>
+    <g id="cp-0-ytick_2">
+     <g id="cp-0-line2d_8" />
+     <g id="cp-0-text_5">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="61.658462" transform="rotate(-0 91.36 61.658462)">Hybrid</text>
+     </g>
+    </g>
+    <g id="cp-0-ytick_3">
+     <g id="cp-0-line2d_9" />
+     <g id="cp-0-text_6">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="92.12" transform="rotate(-0 91.36 92.12)">Granite Rerank</text>
+     </g>
+    </g>
+    <g id="cp-0-ytick_4">
+     <g id="cp-0-line2d_10" />
+     <g id="cp-0-text_7">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="122.581538" transform="rotate(-0 91.36 122.581538)">Provence</text>
+     </g>
+    </g>
+    <g id="cp-0-ytick_5">
+     <g id="cp-0-line2d_11" />
+     <g id="cp-0-text_8">
+      <text style="font-weight: 700; font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #0072b2" x="91.36" y="153.043077" transform="rotate(-0 91.36 153.043077)">Ours</text>
+     </g>
+    </g>
+   </g>
+   <g id="cp-0-patch_3">
+    <path d="M 99.36 166.32  L 291.456 166.32  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+ </g>
+ <defs>
+  <clipPath id="cp-0-paccfef6c58">
+   <rect x="99.36" y="7.92" width="192.096" height="158.4" />
+  </clipPath>
+ </defs>
+<g class="chart-mark" tabindex="0" role="img" aria-label="BM25 RAG: 40.56%. KILT–NQ · Citation precision (%) ↑. One complete run." data-tip-title="BM25 RAG" data-tip-value="40.56%" data-tip-detail="One complete run." style="--bar-delay:0ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="13.19692307692306" width="331.2" height="26" fill="transparent" /><g id="cp-0-bar-0" class="chart-bar">
+    <path d="M 99.36 18.886154  L 177.274138 18.886154  L 177.274138 33.507692  L 99.36 33.507692  z " clip-path="url(#cp-0-paccfef6c58)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-0-value-0" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="182.274138" y="29.525423" transform="rotate(-0 182.274138 29.525423)">40.56</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Hybrid RAG: 49.60%. KILT–NQ · Citation precision (%) ↑. One complete run." data-tip-title="Hybrid RAG" data-tip-value="49.60%" data-tip-detail="One complete run." style="--bar-delay:45ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="43.65846153846153" width="331.2" height="26" fill="transparent" /><g id="cp-0-bar-1" class="chart-bar">
+    <path d="M 99.36 49.347692  L 194.639616 49.347692  L 194.639616 63.969231  L 99.36 63.969231  z " clip-path="url(#cp-0-paccfef6c58)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-0-value-1" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="199.639616" y="59.986962" transform="rotate(-0 199.639616 59.986962)">49.60</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Granite Rerank RAG: 49.30%. KILT–NQ · Citation precision (%) ↑. One complete run." data-tip-title="Granite Rerank RAG" data-tip-value="49.30%" data-tip-detail="One complete run." style="--bar-delay:90ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="74.12" width="331.2" height="26" fill="transparent" /><g id="cp-0-bar-2" class="chart-bar">
+    <path d="M 99.36 79.809231  L 194.063328 79.809231  L 194.063328 94.430769  L 99.36 94.430769  z " clip-path="url(#cp-0-paccfef6c58)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-0-value-2" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="199.063328" y="90.4485" transform="rotate(-0 199.063328 90.4485)">49.30</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Provence RAG: 50.30%. KILT–NQ · Citation precision (%) ↑. One complete run." data-tip-title="Provence RAG" data-tip-value="50.30%" data-tip-detail="One complete run." style="--bar-delay:135ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="104.58153846153844" width="331.2" height="26" fill="transparent" /><g id="cp-0-bar-3" class="chart-bar">
+    <path d="M 99.36 110.270769  L 195.984288 110.270769  L 195.984288 124.892308  L 99.36 124.892308  z " clip-path="url(#cp-0-paccfef6c58)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-0-value-3" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="200.984288" y="120.910038" transform="rotate(-0 200.984288 120.910038)">50.30</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Ours: 60.00% ± 1.25 SD. KILT–NQ · Citation precision (%) ↑. Mean of Seeds 13, 42 and 73; sample standard deviation." data-tip-title="Ours" data-tip-value="60.00% ± 1.25 SD" data-tip-detail="Mean of Seeds 13, 42 and 73; sample standard deviation." style="--bar-delay:180ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="135.04307692307694" width="331.2" height="26" fill="transparent" /><g id="cp-0-bar-4" class="chart-bar">
+    <path d="M 99.36 140.732308  L 214.6176 140.732308  L 214.6176 155.353846  L 99.36 155.353846  z " clip-path="url(#cp-0-paccfef6c58)" style="fill: #0072b2" />
+   </g>
+   <g id="cp-0-error-4" class="chart-detail">
+    <path d="M 212.2164 148.043077  L 217.0188 148.043077  " clip-path="url(#cp-0-paccfef6c58)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="cp-0-cap-4-0" class="chart-detail">
+    <path d="M 212.2164 142.864615  L 212.2164 153.221538  " clip-path="url(#cp-0-paccfef6c58)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="cp-0-cap-4-1" class="chart-detail">
+    <path d="M 217.0188 142.864615  L 217.0188 153.221538  " clip-path="url(#cp-0-paccfef6c58)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+  <g id="cp-0-value-4" class="chart-detail">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="222.0188" y="151.371577" transform="rotate(-0 222.0188 151.371577)">60.00</text>
+   </g>
+   </g></svg></figure><figure class="result-panel " data-chart><figcaption><h5>KILT–TriviaQA</h5></figcaption><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" viewBox="0 0 331.2 198" version="1.1" class="result-svg" role="group" aria-label="KILT–TriviaQA · Citation precision (%) ↑">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:date>2026-10-01T16:32:53.506677</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="cp-1-figure_1">
+  <g id="cp-1-patch_1">
+   <path d="M 0 198  L 331.2 198  L 331.2 0  L 0 0  L 0 198  z " style="fill: none" />
+  </g>
+  <g id="cp-1-axes_1">
+   <g id="cp-1-patch_2">
+    <path d="M 99.36 166.32  L 291.456 166.32  L 291.456 7.92  L 99.36 7.92  L 99.36 166.32  z " style="fill: none" />
+   </g>
+   <g id="cp-1-matplotlib.axis_1">
+    <g id="cp-1-xtick_1">
+     <g id="cp-1-line2d_1">
+      <path d="M 99.36 166.32  L 99.36 7.92  " clip-path="url(#cp-1-p5613e98545)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="cp-1-line2d_2" />
+     <g id="cp-1-text_1">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="184.32" transform="rotate(-0 99.36 184.32)">0</text>
+     </g>
+    </g>
+    <g id="cp-1-xtick_2">
+     <g id="cp-1-line2d_3">
+      <path d="M 195.408 166.32  L 195.408 7.92  " clip-path="url(#cp-1-p5613e98545)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="cp-1-line2d_4" />
+     <g id="cp-1-text_2">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="195.408" y="184.32" transform="rotate(-0 195.408 184.32)">50</text>
+     </g>
+    </g>
+    <g id="cp-1-xtick_3">
+     <g id="cp-1-line2d_5">
+      <path d="M 291.456 166.32  L 291.456 7.92  " clip-path="url(#cp-1-p5613e98545)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="cp-1-line2d_6" />
+     <g id="cp-1-text_3">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="291.456" y="184.32" transform="rotate(-0 291.456 184.32)">100</text>
+     </g>
+    </g>
+   </g>
+   <g id="cp-1-matplotlib.axis_2">
+    <g id="cp-1-ytick_1">
+     <g id="cp-1-line2d_7" />
+     <g id="cp-1-text_4">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="31.196923" transform="rotate(-0 91.36 31.196923)">BM25</text>
+     </g>
+    </g>
+    <g id="cp-1-ytick_2">
+     <g id="cp-1-line2d_8" />
+     <g id="cp-1-text_5">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="61.658462" transform="rotate(-0 91.36 61.658462)">Hybrid</text>
+     </g>
+    </g>
+    <g id="cp-1-ytick_3">
+     <g id="cp-1-line2d_9" />
+     <g id="cp-1-text_6">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="92.12" transform="rotate(-0 91.36 92.12)">Granite Rerank</text>
+     </g>
+    </g>
+    <g id="cp-1-ytick_4">
+     <g id="cp-1-line2d_10" />
+     <g id="cp-1-text_7">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="122.581538" transform="rotate(-0 91.36 122.581538)">Provence</text>
+     </g>
+    </g>
+    <g id="cp-1-ytick_5">
+     <g id="cp-1-line2d_11" />
+     <g id="cp-1-text_8">
+      <text style="font-weight: 700; font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #0072b2" x="91.36" y="153.043077" transform="rotate(-0 91.36 153.043077)">Ours</text>
+     </g>
+    </g>
+   </g>
+   <g id="cp-1-patch_3">
+    <path d="M 99.36 166.32  L 291.456 166.32  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+ </g>
+ <defs>
+  <clipPath id="cp-1-p5613e98545">
+   <rect x="99.36" y="7.92" width="192.096" height="158.4" />
+  </clipPath>
+ </defs>
+<g class="chart-mark" tabindex="0" role="img" aria-label="BM25 RAG: 42.13%. KILT–TriviaQA · Citation precision (%) ↑. One complete run." data-tip-title="BM25 RAG" data-tip-value="42.13%" data-tip-detail="One complete run." style="--bar-delay:0ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="13.19692307692306" width="331.2" height="26" fill="transparent" /><g id="cp-1-bar-0" class="chart-bar">
+    <path d="M 99.36 18.886154  L 180.290045 18.886154  L 180.290045 33.507692  L 99.36 33.507692  z " clip-path="url(#cp-1-p5613e98545)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-1-value-0" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="185.290045" y="29.525423" transform="rotate(-0 185.290045 29.525423)">42.13</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Hybrid RAG: 47.07%. KILT–TriviaQA · Citation precision (%) ↑. One complete run." data-tip-title="Hybrid RAG" data-tip-value="47.07%" data-tip-detail="One complete run." style="--bar-delay:45ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="43.65846153846153" width="331.2" height="26" fill="transparent" /><g id="cp-1-bar-1" class="chart-bar">
+    <path d="M 99.36 49.347692  L 189.779587 49.347692  L 189.779587 63.969231  L 99.36 63.969231  z " clip-path="url(#cp-1-p5613e98545)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-1-value-1" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="194.779587" y="59.986962" transform="rotate(-0 194.779587 59.986962)">47.07</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Granite Rerank RAG: 47.91%. KILT–TriviaQA · Citation precision (%) ↑. One complete run." data-tip-title="Granite Rerank RAG" data-tip-value="47.91%" data-tip-detail="One complete run." style="--bar-delay:90ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="74.12" width="331.2" height="26" fill="transparent" /><g id="cp-1-bar-2" class="chart-bar">
+    <path d="M 99.36 79.809231  L 191.393194 79.809231  L 191.393194 94.430769  L 99.36 94.430769  z " clip-path="url(#cp-1-p5613e98545)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-1-value-2" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="196.393194" y="90.4485" transform="rotate(-0 196.393194 90.4485)">47.91</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Provence RAG: 41.84%. KILT–TriviaQA · Citation precision (%) ↑. One complete run." data-tip-title="Provence RAG" data-tip-value="41.84%" data-tip-detail="One complete run." style="--bar-delay:135ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="104.58153846153844" width="331.2" height="26" fill="transparent" /><g id="cp-1-bar-3" class="chart-bar">
+    <path d="M 99.36 110.270769  L 179.732966 110.270769  L 179.732966 124.892308  L 99.36 124.892308  z " clip-path="url(#cp-1-p5613e98545)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-1-value-3" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="184.732966" y="120.910038" transform="rotate(-0 184.732966 120.910038)">41.84</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Ours: 54.10% ± 0.90 SD. KILT–TriviaQA · Citation precision (%) ↑. Mean of Seeds 13, 42 and 73; sample standard deviation." data-tip-title="Ours" data-tip-value="54.10% ± 0.90 SD" data-tip-detail="Mean of Seeds 13, 42 and 73; sample standard deviation." style="--bar-delay:180ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="135.04307692307694" width="331.2" height="26" fill="transparent" /><g id="cp-1-bar-4" class="chart-bar">
+    <path d="M 99.36 140.732308  L 203.283936 140.732308  L 203.283936 155.353846  L 99.36 155.353846  z " clip-path="url(#cp-1-p5613e98545)" style="fill: #0072b2" />
+   </g>
+   <g id="cp-1-error-4" class="chart-detail">
+    <path d="M 201.555072 148.043077  L 205.0128 148.043077  " clip-path="url(#cp-1-p5613e98545)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="cp-1-cap-4-0" class="chart-detail">
+    <path d="M 201.555072 142.864615  L 201.555072 153.221538  " clip-path="url(#cp-1-p5613e98545)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="cp-1-cap-4-1" class="chart-detail">
+    <path d="M 205.0128 142.864615  L 205.0128 153.221538  " clip-path="url(#cp-1-p5613e98545)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+  <g id="cp-1-value-4" class="chart-detail">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="210.0128" y="151.371577" transform="rotate(-0 210.0128 151.371577)">54.10</text>
+   </g>
+   </g></svg></figure><figure class="result-panel " data-chart><figcaption><h5>ALCE–ASQA</h5></figcaption><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" viewBox="0 0 331.2 198" version="1.1" class="result-svg" role="group" aria-label="ALCE–ASQA · Citation precision (%) ↑">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:date>2026-10-01T16:32:53.608164</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="cp-2-figure_1">
+  <g id="cp-2-patch_1">
+   <path d="M 0 198  L 331.2 198  L 331.2 0  L 0 0  L 0 198  z " style="fill: none" />
+  </g>
+  <g id="cp-2-axes_1">
+   <g id="cp-2-patch_2">
+    <path d="M 99.36 166.32  L 291.456 166.32  L 291.456 7.92  L 99.36 7.92  L 99.36 166.32  z " style="fill: none" />
+   </g>
+   <g id="cp-2-matplotlib.axis_1">
+    <g id="cp-2-xtick_1">
+     <g id="cp-2-line2d_1">
+      <path d="M 99.36 166.32  L 99.36 7.92  " clip-path="url(#cp-2-p7cc802717e)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="cp-2-line2d_2" />
+     <g id="cp-2-text_1">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="184.32" transform="rotate(-0 99.36 184.32)">0</text>
+     </g>
+    </g>
+    <g id="cp-2-xtick_2">
+     <g id="cp-2-line2d_3">
+      <path d="M 195.408 166.32  L 195.408 7.92  " clip-path="url(#cp-2-p7cc802717e)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="cp-2-line2d_4" />
+     <g id="cp-2-text_2">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="195.408" y="184.32" transform="rotate(-0 195.408 184.32)">50</text>
+     </g>
+    </g>
+    <g id="cp-2-xtick_3">
+     <g id="cp-2-line2d_5">
+      <path d="M 291.456 166.32  L 291.456 7.92  " clip-path="url(#cp-2-p7cc802717e)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="cp-2-line2d_6" />
+     <g id="cp-2-text_3">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="291.456" y="184.32" transform="rotate(-0 291.456 184.32)">100</text>
+     </g>
+    </g>
+   </g>
+   <g id="cp-2-matplotlib.axis_2">
+    <g id="cp-2-ytick_1">
+     <g id="cp-2-line2d_7" />
+     <g id="cp-2-text_4">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="31.196923" transform="rotate(-0 91.36 31.196923)">BM25</text>
+     </g>
+    </g>
+    <g id="cp-2-ytick_2">
+     <g id="cp-2-line2d_8" />
+     <g id="cp-2-text_5">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="61.658462" transform="rotate(-0 91.36 61.658462)">Hybrid</text>
+     </g>
+    </g>
+    <g id="cp-2-ytick_3">
+     <g id="cp-2-line2d_9" />
+     <g id="cp-2-text_6">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="92.12" transform="rotate(-0 91.36 92.12)">Granite Rerank</text>
+     </g>
+    </g>
+    <g id="cp-2-ytick_4">
+     <g id="cp-2-line2d_10" />
+     <g id="cp-2-text_7">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="122.581538" transform="rotate(-0 91.36 122.581538)">Provence</text>
+     </g>
+    </g>
+    <g id="cp-2-ytick_5">
+     <g id="cp-2-line2d_11" />
+     <g id="cp-2-text_8">
+      <text style="font-weight: 700; font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #0072b2" x="91.36" y="153.043077" transform="rotate(-0 91.36 153.043077)">Ours</text>
+     </g>
+    </g>
+   </g>
+   <g id="cp-2-patch_3">
+    <path d="M 99.36 166.32  L 291.456 166.32  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+ </g>
+ <defs>
+  <clipPath id="cp-2-p7cc802717e">
+   <rect x="99.36" y="7.92" width="192.096" height="158.4" />
+  </clipPath>
+ </defs>
+<g class="chart-mark" tabindex="0" role="img" aria-label="BM25 RAG: 38.33%. ALCE–ASQA · Citation precision (%) ↑. One complete run." data-tip-title="BM25 RAG" data-tip-value="38.33%" data-tip-detail="One complete run." style="--bar-delay:0ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="13.19692307692306" width="331.2" height="26" fill="transparent" /><g id="cp-2-bar-0" class="chart-bar">
+    <path d="M 99.36 18.886154  L 172.990397 18.886154  L 172.990397 33.507692  L 99.36 33.507692  z " clip-path="url(#cp-2-p7cc802717e)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-2-value-0" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="177.990397" y="29.525423" transform="rotate(-0 177.990397 29.525423)">38.33</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Hybrid RAG: 42.90%. ALCE–ASQA · Citation precision (%) ↑. One complete run." data-tip-title="Hybrid RAG" data-tip-value="42.90%" data-tip-detail="One complete run." style="--bar-delay:45ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="43.65846153846153" width="331.2" height="26" fill="transparent" /><g id="cp-2-bar-1" class="chart-bar">
+    <path d="M 99.36 49.347692  L 181.769184 49.347692  L 181.769184 63.969231  L 99.36 63.969231  z " clip-path="url(#cp-2-p7cc802717e)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-2-value-1" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="186.769184" y="59.986962" transform="rotate(-0 186.769184 59.986962)">42.90</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Granite Rerank RAG: 47.75%. ALCE–ASQA · Citation precision (%) ↑. One complete run." data-tip-title="Granite Rerank RAG" data-tip-value="47.75%" data-tip-detail="One complete run." style="--bar-delay:90ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="74.12" width="331.2" height="26" fill="transparent" /><g id="cp-2-bar-2" class="chart-bar">
+    <path d="M 99.36 79.809231  L 191.08584 79.809231  L 191.08584 94.430769  L 99.36 94.430769  z " clip-path="url(#cp-2-p7cc802717e)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-2-value-2" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="196.08584" y="90.4485" transform="rotate(-0 196.08584 90.4485)">47.75</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Provence RAG: 46.31%. ALCE–ASQA · Citation precision (%) ↑. One complete run." data-tip-title="Provence RAG" data-tip-value="46.31%" data-tip-detail="One complete run." style="--bar-delay:135ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="104.58153846153844" width="331.2" height="26" fill="transparent" /><g id="cp-2-bar-3" class="chart-bar">
+    <path d="M 99.36 110.270769  L 188.319658 110.270769  L 188.319658 124.892308  L 99.36 124.892308  z " clip-path="url(#cp-2-p7cc802717e)" style="fill: #b9b8b1" />
+   </g>
+   <g id="cp-2-value-3" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="193.319658" y="120.910038" transform="rotate(-0 193.319658 120.910038)">46.31</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Ours: 57.21% ± 0.87 SD. ALCE–ASQA · Citation precision (%) ↑. Mean of Seeds 13, 42 and 73; sample standard deviation." data-tip-title="Ours" data-tip-value="57.21% ± 0.87 SD" data-tip-detail="Mean of Seeds 13, 42 and 73; sample standard deviation." style="--bar-delay:180ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="135.04307692307694" width="331.2" height="26" fill="transparent" /><g id="cp-2-bar-4" class="chart-bar">
+    <path d="M 99.36 140.732308  L 209.258122 140.732308  L 209.258122 155.353846  L 99.36 155.353846  z " clip-path="url(#cp-2-p7cc802717e)" style="fill: #0072b2" />
+   </g>
+   <g id="cp-2-error-4" class="chart-detail">
+    <path d="M 207.586886 148.043077  L 210.929357 148.043077  " clip-path="url(#cp-2-p7cc802717e)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="cp-2-cap-4-0" class="chart-detail">
+    <path d="M 207.586886 142.864615  L 207.586886 153.221538  " clip-path="url(#cp-2-p7cc802717e)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="cp-2-cap-4-1" class="chart-detail">
+    <path d="M 210.929357 142.864615  L 210.929357 153.221538  " clip-path="url(#cp-2-p7cc802717e)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+  <g id="cp-2-value-4" class="chart-detail">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="215.929357" y="151.371577" transform="rotate(-0 215.929357 151.371577)">57.21</text>
+   </g>
+   </g></svg></figure></div></section><section class="metric-chart-group" aria-labelledby="rfc-heading"><h4 id="rfc-heading">Reference fact coverage (%) ↑</h4><div class="result-grid"><figure class="result-panel " data-chart><figcaption><h5>KILT–NQ</h5></figcaption><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" viewBox="0 0 331.2 198" version="1.1" class="result-svg" role="group" aria-label="KILT–NQ · Reference fact coverage (%) ↑">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:date>2026-10-01T16:32:53.707935</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="rfc-0-figure_1">
+  <g id="rfc-0-patch_1">
+   <path d="M 0 198  L 331.2 198  L 331.2 0  L 0 0  L 0 198  z " style="fill: none" />
+  </g>
+  <g id="rfc-0-axes_1">
+   <g id="rfc-0-patch_2">
+    <path d="M 99.36 166.32  L 291.456 166.32  L 291.456 7.92  L 99.36 7.92  L 99.36 166.32  z " style="fill: none" />
+   </g>
+   <g id="rfc-0-matplotlib.axis_1">
+    <g id="rfc-0-xtick_1">
+     <g id="rfc-0-line2d_1">
+      <path d="M 99.36 166.32  L 99.36 7.92  " clip-path="url(#rfc-0-pc32f029207)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="rfc-0-line2d_2" />
+     <g id="rfc-0-text_1">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="184.32" transform="rotate(-0 99.36 184.32)">0</text>
+     </g>
+    </g>
+    <g id="rfc-0-xtick_2">
+     <g id="rfc-0-line2d_3">
+      <path d="M 195.408 166.32  L 195.408 7.92  " clip-path="url(#rfc-0-pc32f029207)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="rfc-0-line2d_4" />
+     <g id="rfc-0-text_2">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="195.408" y="184.32" transform="rotate(-0 195.408 184.32)">50</text>
+     </g>
+    </g>
+    <g id="rfc-0-xtick_3">
+     <g id="rfc-0-line2d_5">
+      <path d="M 291.456 166.32  L 291.456 7.92  " clip-path="url(#rfc-0-pc32f029207)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="rfc-0-line2d_6" />
+     <g id="rfc-0-text_3">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="291.456" y="184.32" transform="rotate(-0 291.456 184.32)">100</text>
+     </g>
+    </g>
+   </g>
+   <g id="rfc-0-matplotlib.axis_2">
+    <g id="rfc-0-ytick_1">
+     <g id="rfc-0-line2d_7" />
+     <g id="rfc-0-text_4">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="31.196923" transform="rotate(-0 91.36 31.196923)">BM25</text>
+     </g>
+    </g>
+    <g id="rfc-0-ytick_2">
+     <g id="rfc-0-line2d_8" />
+     <g id="rfc-0-text_5">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="61.658462" transform="rotate(-0 91.36 61.658462)">Hybrid</text>
+     </g>
+    </g>
+    <g id="rfc-0-ytick_3">
+     <g id="rfc-0-line2d_9" />
+     <g id="rfc-0-text_6">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="92.12" transform="rotate(-0 91.36 92.12)">Granite Rerank</text>
+     </g>
+    </g>
+    <g id="rfc-0-ytick_4">
+     <g id="rfc-0-line2d_10" />
+     <g id="rfc-0-text_7">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="122.581538" transform="rotate(-0 91.36 122.581538)">Provence</text>
+     </g>
+    </g>
+    <g id="rfc-0-ytick_5">
+     <g id="rfc-0-line2d_11" />
+     <g id="rfc-0-text_8">
+      <text style="font-weight: 700; font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #0072b2" x="91.36" y="153.043077" transform="rotate(-0 91.36 153.043077)">Ours</text>
+     </g>
+    </g>
+   </g>
+   <g id="rfc-0-patch_3">
+    <path d="M 99.36 166.32  L 291.456 166.32  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+ </g>
+ <defs>
+  <clipPath id="rfc-0-pc32f029207">
+   <rect x="99.36" y="7.92" width="192.096" height="158.4" />
+  </clipPath>
+ </defs>
+<g class="chart-mark" tabindex="0" role="img" aria-label="BM25 RAG: 47.50%. KILT–NQ · Reference fact coverage (%) ↑. One complete run." data-tip-title="BM25 RAG" data-tip-value="47.50%" data-tip-detail="One complete run." style="--bar-delay:0ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="13.19692307692306" width="331.2" height="26" fill="transparent" /><g id="rfc-0-bar-0" class="chart-bar">
+    <path d="M 99.36 18.886154  L 190.6056 18.886154  L 190.6056 33.507692  L 99.36 33.507692  z " clip-path="url(#rfc-0-pc32f029207)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-0-value-0" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="195.6056" y="29.525423" transform="rotate(-0 195.6056 29.525423)">47.50</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Hybrid RAG: 60.75%. KILT–NQ · Reference fact coverage (%) ↑. One complete run." data-tip-title="Hybrid RAG" data-tip-value="60.75%" data-tip-detail="One complete run." style="--bar-delay:45ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="43.65846153846153" width="331.2" height="26" fill="transparent" /><g id="rfc-0-bar-1" class="chart-bar">
+    <path d="M 99.36 49.347692  L 216.05832 49.347692  L 216.05832 63.969231  L 99.36 63.969231  z " clip-path="url(#rfc-0-pc32f029207)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-0-value-1" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="221.05832" y="59.986962" transform="rotate(-0 221.05832 59.986962)">60.75</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Granite Rerank RAG: 64.00%. KILT–NQ · Reference fact coverage (%) ↑. One complete run." data-tip-title="Granite Rerank RAG" data-tip-value="64.00%" data-tip-detail="One complete run." style="--bar-delay:90ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="74.12" width="331.2" height="26" fill="transparent" /><g id="rfc-0-bar-2" class="chart-bar">
+    <path d="M 99.36 79.809231  L 222.30144 79.809231  L 222.30144 94.430769  L 99.36 94.430769  z " clip-path="url(#rfc-0-pc32f029207)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-0-value-2" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="227.30144" y="90.4485" transform="rotate(-0 227.30144 90.4485)">64.00</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Provence RAG: 60.50%. KILT–NQ · Reference fact coverage (%) ↑. One complete run." data-tip-title="Provence RAG" data-tip-value="60.50%" data-tip-detail="One complete run." style="--bar-delay:135ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="104.58153846153844" width="331.2" height="26" fill="transparent" /><g id="rfc-0-bar-3" class="chart-bar">
+    <path d="M 99.36 110.270769  L 215.57808 110.270769  L 215.57808 124.892308  L 99.36 124.892308  z " clip-path="url(#rfc-0-pc32f029207)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-0-value-3" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="220.57808" y="120.910038" transform="rotate(-0 220.57808 120.910038)">60.50</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Ours: 51.08% ± 0.58 SD. KILT–NQ · Reference fact coverage (%) ↑. Mean of Seeds 13, 42 and 73; sample standard deviation." data-tip-title="Ours" data-tip-value="51.08% ± 0.58 SD" data-tip-detail="Mean of Seeds 13, 42 and 73; sample standard deviation." style="--bar-delay:180ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="135.04307692307694" width="331.2" height="26" fill="transparent" /><g id="rfc-0-bar-4" class="chart-bar">
+    <path d="M 99.36 140.732308  L 197.482637 140.732308  L 197.482637 155.353846  L 99.36 155.353846  z " clip-path="url(#rfc-0-pc32f029207)" style="fill: #0072b2" />
+   </g>
+   <g id="rfc-0-error-4" class="chart-detail">
+    <path d="M 196.36848 148.043077  L 198.596794 148.043077  " clip-path="url(#rfc-0-pc32f029207)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="rfc-0-cap-4-0" class="chart-detail">
+    <path d="M 196.36848 142.864615  L 196.36848 153.221538  " clip-path="url(#rfc-0-pc32f029207)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="rfc-0-cap-4-1" class="chart-detail">
+    <path d="M 198.596794 142.864615  L 198.596794 153.221538  " clip-path="url(#rfc-0-pc32f029207)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+  <g id="rfc-0-value-4" class="chart-detail">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="203.596794" y="151.371577" transform="rotate(-0 203.596794 151.371577)">51.08</text>
+   </g>
+   </g></svg></figure><figure class="result-panel " data-chart><figcaption><h5>KILT–TriviaQA</h5></figcaption><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" viewBox="0 0 331.2 198" version="1.1" class="result-svg" role="group" aria-label="KILT–TriviaQA · Reference fact coverage (%) ↑">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:date>2026-10-01T16:32:53.808843</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="rfc-1-figure_1">
+  <g id="rfc-1-patch_1">
+   <path d="M 0 198  L 331.2 198  L 331.2 0  L 0 0  L 0 198  z " style="fill: none" />
+  </g>
+  <g id="rfc-1-axes_1">
+   <g id="rfc-1-patch_2">
+    <path d="M 99.36 166.32  L 291.456 166.32  L 291.456 7.92  L 99.36 7.92  L 99.36 166.32  z " style="fill: none" />
+   </g>
+   <g id="rfc-1-matplotlib.axis_1">
+    <g id="rfc-1-xtick_1">
+     <g id="rfc-1-line2d_1">
+      <path d="M 99.36 166.32  L 99.36 7.92  " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="rfc-1-line2d_2" />
+     <g id="rfc-1-text_1">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="184.32" transform="rotate(-0 99.36 184.32)">0</text>
+     </g>
+    </g>
+    <g id="rfc-1-xtick_2">
+     <g id="rfc-1-line2d_3">
+      <path d="M 195.408 166.32  L 195.408 7.92  " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="rfc-1-line2d_4" />
+     <g id="rfc-1-text_2">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="195.408" y="184.32" transform="rotate(-0 195.408 184.32)">50</text>
+     </g>
+    </g>
+    <g id="rfc-1-xtick_3">
+     <g id="rfc-1-line2d_5">
+      <path d="M 291.456 166.32  L 291.456 7.92  " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="rfc-1-line2d_6" />
+     <g id="rfc-1-text_3">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="291.456" y="184.32" transform="rotate(-0 291.456 184.32)">100</text>
+     </g>
+    </g>
+   </g>
+   <g id="rfc-1-matplotlib.axis_2">
+    <g id="rfc-1-ytick_1">
+     <g id="rfc-1-line2d_7" />
+     <g id="rfc-1-text_4">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="31.196923" transform="rotate(-0 91.36 31.196923)">BM25</text>
+     </g>
+    </g>
+    <g id="rfc-1-ytick_2">
+     <g id="rfc-1-line2d_8" />
+     <g id="rfc-1-text_5">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="61.658462" transform="rotate(-0 91.36 61.658462)">Hybrid</text>
+     </g>
+    </g>
+    <g id="rfc-1-ytick_3">
+     <g id="rfc-1-line2d_9" />
+     <g id="rfc-1-text_6">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="92.12" transform="rotate(-0 91.36 92.12)">Granite Rerank</text>
+     </g>
+    </g>
+    <g id="rfc-1-ytick_4">
+     <g id="rfc-1-line2d_10" />
+     <g id="rfc-1-text_7">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="122.581538" transform="rotate(-0 91.36 122.581538)">Provence</text>
+     </g>
+    </g>
+    <g id="rfc-1-ytick_5">
+     <g id="rfc-1-line2d_11" />
+     <g id="rfc-1-text_8">
+      <text style="font-weight: 700; font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #0072b2" x="91.36" y="153.043077" transform="rotate(-0 91.36 153.043077)">Ours</text>
+     </g>
+    </g>
+   </g>
+   <g id="rfc-1-patch_3">
+    <path d="M 99.36 166.32  L 291.456 166.32  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+ </g>
+ <defs>
+  <clipPath id="rfc-1-p1c333ce1d7">
+   <rect x="99.36" y="7.92" width="192.096" height="158.4" />
+  </clipPath>
+ </defs>
+<g class="chart-mark" tabindex="0" role="img" aria-label="BM25 RAG: 81.00%. KILT–TriviaQA · Reference fact coverage (%) ↑. One complete run." data-tip-title="BM25 RAG" data-tip-value="81.00%" data-tip-detail="One complete run." style="--bar-delay:0ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="13.19692307692306" width="331.2" height="26" fill="transparent" /><g id="rfc-1-bar-0" class="chart-bar">
+    <path d="M 99.36 18.886154  L 254.95776 18.886154  L 254.95776 33.507692  L 99.36 33.507692  z " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-1-value-0" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="259.95776" y="29.525423" transform="rotate(-0 259.95776 29.525423)">81.00</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Hybrid RAG: 84.00%. KILT–TriviaQA · Reference fact coverage (%) ↑. One complete run." data-tip-title="Hybrid RAG" data-tip-value="84.00%" data-tip-detail="One complete run." style="--bar-delay:45ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="43.65846153846153" width="331.2" height="26" fill="transparent" /><g id="rfc-1-bar-1" class="chart-bar">
+    <path d="M 99.36 49.347692  L 260.72064 49.347692  L 260.72064 63.969231  L 99.36 63.969231  z " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-1-value-1" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="265.72064" y="59.986962" transform="rotate(-0 265.72064 59.986962)">84.00</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Granite Rerank RAG: 88.50%. KILT–TriviaQA · Reference fact coverage (%) ↑. One complete run." data-tip-title="Granite Rerank RAG" data-tip-value="88.50%" data-tip-detail="One complete run." style="--bar-delay:90ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="74.12" width="331.2" height="26" fill="transparent" /><g id="rfc-1-bar-2" class="chart-bar">
+    <path d="M 99.36 79.809231  L 269.36496 79.809231  L 269.36496 94.430769  L 99.36 94.430769  z " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-1-value-2" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="274.36496" y="90.4485" transform="rotate(-0 274.36496 90.4485)">88.50</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Provence RAG: 82.25%. KILT–TriviaQA · Reference fact coverage (%) ↑. One complete run." data-tip-title="Provence RAG" data-tip-value="82.25%" data-tip-detail="One complete run." style="--bar-delay:135ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="104.58153846153844" width="331.2" height="26" fill="transparent" /><g id="rfc-1-bar-3" class="chart-bar">
+    <path d="M 99.36 110.270769  L 257.35896 110.270769  L 257.35896 124.892308  L 99.36 124.892308  z " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-1-value-3" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="262.35896" y="120.910038" transform="rotate(-0 262.35896 120.910038)">82.25</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Ours: 78.58% ± 1.94 SD. KILT–TriviaQA · Reference fact coverage (%) ↑. Mean of Seeds 13, 42 and 73; sample standard deviation." data-tip-title="Ours" data-tip-value="78.58% ± 1.94 SD" data-tip-detail="Mean of Seeds 13, 42 and 73; sample standard deviation." style="--bar-delay:180ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="135.04307692307694" width="331.2" height="26" fill="transparent" /><g id="rfc-1-bar-4" class="chart-bar">
+    <path d="M 99.36 140.732308  L 250.309037 140.732308  L 250.309037 155.353846  L 99.36 155.353846  z " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: #0072b2" />
+   </g>
+   <g id="rfc-1-error-4" class="chart-detail">
+    <path d="M 246.582374 148.043077  L 254.035699 148.043077  " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="rfc-1-cap-4-0" class="chart-detail">
+    <path d="M 246.582374 142.864615  L 246.582374 153.221538  " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="rfc-1-cap-4-1" class="chart-detail">
+    <path d="M 254.035699 142.864615  L 254.035699 153.221538  " clip-path="url(#rfc-1-p1c333ce1d7)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+  <g id="rfc-1-value-4" class="chart-detail">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="259.035699" y="151.371577" transform="rotate(-0 259.035699 151.371577)">78.58</text>
+   </g>
+   </g></svg></figure><figure class="result-panel " data-chart><figcaption><h5>ALCE–ASQA</h5></figcaption><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" viewBox="0 0 331.2 198" version="1.1" class="result-svg" role="group" aria-label="ALCE–ASQA · Reference fact coverage (%) ↑">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:date>2026-10-01T16:32:53.909529</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="rfc-2-figure_1">
+  <g id="rfc-2-patch_1">
+   <path d="M 0 198  L 331.2 198  L 331.2 0  L 0 0  L 0 198  z " style="fill: none" />
+  </g>
+  <g id="rfc-2-axes_1">
+   <g id="rfc-2-patch_2">
+    <path d="M 99.36 166.32  L 291.456 166.32  L 291.456 7.92  L 99.36 7.92  L 99.36 166.32  z " style="fill: none" />
+   </g>
+   <g id="rfc-2-matplotlib.axis_1">
+    <g id="rfc-2-xtick_1">
+     <g id="rfc-2-line2d_1">
+      <path d="M 99.36 166.32  L 99.36 7.92  " clip-path="url(#rfc-2-p3b4754e974)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="rfc-2-line2d_2" />
+     <g id="rfc-2-text_1">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="184.32" transform="rotate(-0 99.36 184.32)">0</text>
+     </g>
+    </g>
+    <g id="rfc-2-xtick_2">
+     <g id="rfc-2-line2d_3">
+      <path d="M 195.408 166.32  L 195.408 7.92  " clip-path="url(#rfc-2-p3b4754e974)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="rfc-2-line2d_4" />
+     <g id="rfc-2-text_2">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="195.408" y="184.32" transform="rotate(-0 195.408 184.32)">50</text>
+     </g>
+    </g>
+    <g id="rfc-2-xtick_3">
+     <g id="rfc-2-line2d_5">
+      <path d="M 291.456 166.32  L 291.456 7.92  " clip-path="url(#rfc-2-p3b4754e974)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="rfc-2-line2d_6" />
+     <g id="rfc-2-text_3">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="291.456" y="184.32" transform="rotate(-0 291.456 184.32)">100</text>
+     </g>
+    </g>
+   </g>
+   <g id="rfc-2-matplotlib.axis_2">
+    <g id="rfc-2-ytick_1">
+     <g id="rfc-2-line2d_7" />
+     <g id="rfc-2-text_4">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="31.196923" transform="rotate(-0 91.36 31.196923)">BM25</text>
+     </g>
+    </g>
+    <g id="rfc-2-ytick_2">
+     <g id="rfc-2-line2d_8" />
+     <g id="rfc-2-text_5">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="61.658462" transform="rotate(-0 91.36 61.658462)">Hybrid</text>
+     </g>
+    </g>
+    <g id="rfc-2-ytick_3">
+     <g id="rfc-2-line2d_9" />
+     <g id="rfc-2-text_6">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="92.12" transform="rotate(-0 91.36 92.12)">Granite Rerank</text>
+     </g>
+    </g>
+    <g id="rfc-2-ytick_4">
+     <g id="rfc-2-line2d_10" />
+     <g id="rfc-2-text_7">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="91.36" y="122.581538" transform="rotate(-0 91.36 122.581538)">Provence</text>
+     </g>
+    </g>
+    <g id="rfc-2-ytick_5">
+     <g id="rfc-2-line2d_11" />
+     <g id="rfc-2-text_8">
+      <text style="font-weight: 700; font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #0072b2" x="91.36" y="153.043077" transform="rotate(-0 91.36 153.043077)">Ours</text>
+     </g>
+    </g>
+   </g>
+   <g id="rfc-2-patch_3">
+    <path d="M 99.36 166.32  L 291.456 166.32  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+ </g>
+ <defs>
+  <clipPath id="rfc-2-p3b4754e974">
+   <rect x="99.36" y="7.92" width="192.096" height="158.4" />
+  </clipPath>
+ </defs>
+<g class="chart-mark" tabindex="0" role="img" aria-label="BM25 RAG: 24.61%. ALCE–ASQA · Reference fact coverage (%) ↑. One complete run." data-tip-title="BM25 RAG" data-tip-value="24.61%" data-tip-detail="One complete run." style="--bar-delay:0ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="13.19692307692306" width="331.2" height="26" fill="transparent" /><g id="rfc-2-bar-0" class="chart-bar">
+    <path d="M 99.36 18.886154  L 146.634826 18.886154  L 146.634826 33.507692  L 99.36 33.507692  z " clip-path="url(#rfc-2-p3b4754e974)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-2-value-0" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="151.634826" y="29.525423" transform="rotate(-0 151.634826 29.525423)">24.61</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Hybrid RAG: 30.00%. ALCE–ASQA · Reference fact coverage (%) ↑. One complete run." data-tip-title="Hybrid RAG" data-tip-value="30.00%" data-tip-detail="One complete run." style="--bar-delay:45ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="43.65846153846153" width="331.2" height="26" fill="transparent" /><g id="rfc-2-bar-1" class="chart-bar">
+    <path d="M 99.36 49.347692  L 156.9888 49.347692  L 156.9888 63.969231  L 99.36 63.969231  z " clip-path="url(#rfc-2-p3b4754e974)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-2-value-1" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="161.9888" y="59.986962" transform="rotate(-0 161.9888 59.986962)">30.00</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Granite Rerank RAG: 33.33%. ALCE–ASQA · Reference fact coverage (%) ↑. One complete run." data-tip-title="Granite Rerank RAG" data-tip-value="33.33%" data-tip-detail="One complete run." style="--bar-delay:90ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="74.12" width="331.2" height="26" fill="transparent" /><g id="rfc-2-bar-2" class="chart-bar">
+    <path d="M 99.36 79.809231  L 163.385597 79.809231  L 163.385597 94.430769  L 99.36 94.430769  z " clip-path="url(#rfc-2-p3b4754e974)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-2-value-2" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="168.385597" y="90.4485" transform="rotate(-0 168.385597 90.4485)">33.33</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Provence RAG: 28.67%. ALCE–ASQA · Reference fact coverage (%) ↑. One complete run." data-tip-title="Provence RAG" data-tip-value="28.67%" data-tip-detail="One complete run." style="--bar-delay:135ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="104.58153846153844" width="331.2" height="26" fill="transparent" /><g id="rfc-2-bar-3" class="chart-bar">
+    <path d="M 99.36 110.270769  L 154.433923 110.270769  L 154.433923 124.892308  L 99.36 124.892308  z " clip-path="url(#rfc-2-p3b4754e974)" style="fill: #b9b8b1" />
+   </g>
+   <g id="rfc-2-value-3" class="chart-detail">
+    <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="159.433923" y="120.910038" transform="rotate(-0 159.433923 120.910038)">28.67</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Ours: 23.20% ± 0.67 SD. ALCE–ASQA · Reference fact coverage (%) ↑. Mean of Seeds 13, 42 and 73; sample standard deviation." data-tip-title="Ours" data-tip-value="23.20% ± 0.67 SD" data-tip-detail="Mean of Seeds 13, 42 and 73; sample standard deviation." style="--bar-delay:180ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="135.04307692307694" width="331.2" height="26" fill="transparent" /><g id="rfc-2-bar-4" class="chart-bar">
+    <path d="M 99.36 140.732308  L 143.926272 140.732308  L 143.926272 155.353846  L 99.36 155.353846  z " clip-path="url(#rfc-2-p3b4754e974)" style="fill: #0072b2" />
+   </g>
+   <g id="rfc-2-error-4" class="chart-detail">
+    <path d="M 142.639229 148.043077  L 145.213315 148.043077  " clip-path="url(#rfc-2-p3b4754e974)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="rfc-2-cap-4-0" class="chart-detail">
+    <path d="M 142.639229 142.864615  L 142.639229 153.221538  " clip-path="url(#rfc-2-p3b4754e974)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+   <g id="rfc-2-cap-4-1" class="chart-detail">
+    <path d="M 145.213315 142.864615  L 145.213315 153.221538  " clip-path="url(#rfc-2-p3b4754e974)" style="fill: none; stroke: #353431; stroke-width: 0.9; stroke-linecap: square" />
+   </g>
+  <g id="rfc-2-value-4" class="chart-detail">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="150.213315" y="151.371577" transform="rotate(-0 150.213315 151.371577)">23.20</text>
+   </g>
+   </g></svg></figure></div></section></div>
+   <p class="figure-caption">Ours: mean ± sample SD, Seeds 13, 42, 73. Baselines: one complete run each. Tables 4.8–4.10.</p>
+   <details class="disclosure"><summary>All systems, metrics &amp; evaluation scope</summary><div class="disclosure-body"><p>The comparison includes BM25 RAG, Hybrid RAG, Granite Rerank RAG and Provence RAG. Ours also has lower response rates than Granite Rerank RAG and does not achieve the lowest unsupported-claim rate.</p><dl class="rag-metric-key"><div><dt>RFC ↑</dt><dd>Reference facts correctly expressed.</dd></div><div><dt>VRFC ↑</dt><dd>Reference facts expressed with a valid citation.</dd></div><div><dt>UCR ↓</dt><dd>Claims unsupported by presented evidence.</dd></div><div><dt>CP ↑</dt><dd>Citation links supporting their claims.</dd></div><div><dt>CR ↑</dt><dd>Claims with at least one valid supporting citation.</dd></div><div><dt>RR ↑</dt><dd>Queries receiving a substantive answer.</dd></div></dl><div class="rag-table-wrap" role="region" aria-label="KILT–NQ results" tabindex="0"><table class="rag-table"><caption>KILT–NQ</caption><thead><tr><th scope="col">System</th><th scope="col">RFC ↑</th><th scope="col">VRFC ↑</th><th scope="col">UCR ↓</th><th scope="col">CP ↑</th><th scope="col">CR ↑</th><th scope="col">RR ↑</th></tr></thead><tbody><tr class=""><th scope="row">BM25 RAG</th><td>47.50</td><td>26.25</td><td>30.91</td><td>40.56</td><td>44.45</td><td>94.25</td></tr><tr class=""><th scope="row">Hybrid RAG</th><td>60.75</td><td>37.50</td><td>17.34</td><td>49.60</td><td>55.02</td><td>96.50</td></tr><tr class=""><th scope="row">Granite Rerank RAG</th><td>64.00</td><td>41.25</td><td>18.02</td><td>49.30</td><td>57.26</td><td>96.75</td></tr><tr class=""><th scope="row">Provence RAG</th><td>60.50</td><td>40.00</td><td>19.91</td><td>50.30</td><td>57.27</td><td>95.50</td></tr><tr class="our-result"><th scope="row">Ours</th><td>51.08<span class="table-sd"> ± 0.58</span></td><td>38.00<span class="table-sd"> ± 0.43</span></td><td>18.80<span class="table-sd"> ± 0.98</span></td><td>60.00<span class="table-sd"> ± 1.25</span></td><td>61.10<span class="table-sd"> ± 1.19</span></td><td>92.17<span class="table-sd"> ± 1.66</span></td></tr></tbody></table></div><div class="rag-table-wrap" role="region" aria-label="KILT–TriviaQA results" tabindex="0"><table class="rag-table"><caption>KILT–TriviaQA</caption><thead><tr><th scope="col">System</th><th scope="col">RFC ↑</th><th scope="col">VRFC ↑</th><th scope="col">UCR ↓</th><th scope="col">CP ↑</th><th scope="col">CR ↑</th><th scope="col">RR ↑</th></tr></thead><tbody><tr class=""><th scope="row">BM25 RAG</th><td>81.00</td><td>43.50</td><td>21.28</td><td>42.13</td><td>47.13</td><td>92.75</td></tr><tr class=""><th scope="row">Hybrid RAG</th><td>84.00</td><td>49.25</td><td>20.52</td><td>47.07</td><td>52.83</td><td>95.00</td></tr><tr class=""><th scope="row">Granite Rerank RAG</th><td>88.50</td><td>54.75</td><td>16.37</td><td>47.91</td><td>57.75</td><td>96.00</td></tr><tr class=""><th scope="row">Provence RAG</th><td>82.25</td><td>45.75</td><td>26.82</td><td>41.84</td><td>49.46</td><td>93.50</td></tr><tr class="our-result"><th scope="row">Ours</th><td>78.58<span class="table-sd"> ± 1.94</span></td><td>54.67<span class="table-sd"> ± 0.80</span></td><td>18.41<span class="table-sd"> ± 1.52</span></td><td>54.10<span class="table-sd"> ± 0.90</span></td><td>57.56<span class="table-sd"> ± 1.02</span></td><td>88.42<span class="table-sd"> ± 2.43</span></td></tr></tbody></table></div><div class="rag-table-wrap" role="region" aria-label="ALCE–ASQA results" tabindex="0"><table class="rag-table"><caption>ALCE–ASQA</caption><thead><tr><th scope="col">System</th><th scope="col">RFC ↑</th><th scope="col">VRFC ↑</th><th scope="col">UCR ↓</th><th scope="col">CP ↑</th><th scope="col">CR ↑</th><th scope="col">RR ↑</th></tr></thead><tbody><tr class=""><th scope="row">BM25 RAG</th><td>24.61</td><td>14.91</td><td>27.12</td><td>38.33</td><td>43.54</td><td>90.00</td></tr><tr class=""><th scope="row">Hybrid RAG</th><td>30.00</td><td>16.60</td><td>20.69</td><td>42.90</td><td>49.34</td><td>94.25</td></tr><tr class=""><th scope="row">Granite Rerank RAG</th><td>33.33</td><td>21.42</td><td>15.81</td><td>47.75</td><td>57.42</td><td>97.00</td></tr><tr class=""><th scope="row">Provence RAG</th><td>28.67</td><td>18.22</td><td>25.71</td><td>46.31</td><td>54.56</td><td>91.75</td></tr><tr class="our-result"><th scope="row">Ours</th><td>23.20<span class="table-sd"> ± 0.67</span></td><td>18.28<span class="table-sd"> ± 0.25</span></td><td>21.04<span class="table-sd"> ± 0.83</span></td><td>57.21<span class="table-sd"> ± 0.87</span></td><td>58.46<span class="table-sd"> ± 1.02</span></td><td>90.25<span class="table-sd"> ± 1.64</span></td></tr></tbody></table></div></div></details>
+  </div>
+  <div class="study">
+   <div class="study-heading"><h3>Module ablation</h3><p class="protocol">QA ablations · Selector stress test</p></div>
+   <div class="ablation-charts"><div class="ablation-key"><span>Retriever &amp; Generator:</span><span class="key-cp">Citation precision</span><span class="key-rfc">Fact coverage</span><span class="delta-unit">Difference in percentage points · right of zero = higher</span></div><div class="result-grid"><figure class="result-panel " data-chart><figcaption><h5>Retriever</h5><p>Ours − BM25 Retriever</p></figcaption><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 331.2 230.4" version="1.1" class="result-svg" role="group" aria-label="Retriever: Ours minus BM25 Retriever, percentage points">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:date>2026-10-01T16:32:54.017125</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="ablation-1-figure_1">
+  <g id="ablation-1-patch_1">
+   <path d="M 0 230.4  L 331.2 230.4  L 331.2 0  L 0 0  L 0 230.4  z " style="fill: none" />
+  </g>
+  <g id="ablation-1-axes_1">
+   <g id="ablation-1-patch_2">
+    <path d="M 66.24 193.536  L 298.08 193.536  L 298.08 9.216  L 66.24 9.216  L 66.24 193.536  z " style="fill: none" />
+   </g>
+   <g id="ablation-1-matplotlib.axis_1">
+    <g id="ablation-1-xtick_1">
+     <g id="ablation-1-line2d_1">
+      <path d="M 99.36 193.536  L 99.36 9.216  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="ablation-1-line2d_2" />
+     <g id="ablation-1-text_1">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="211.536" transform="rotate(-0 99.36 211.536)">−10</text>
+     </g>
+    </g>
+    <g id="ablation-1-xtick_2">
+     <g id="ablation-1-line2d_3">
+      <path d="M 165.6 193.536  L 165.6 9.216  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="ablation-1-line2d_4" />
+     <g id="ablation-1-text_2">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="165.6" y="211.536" transform="rotate(-0 165.6 211.536)">0</text>
+     </g>
+    </g>
+    <g id="ablation-1-xtick_3">
+     <g id="ablation-1-line2d_5">
+      <path d="M 231.84 193.536  L 231.84 9.216  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="ablation-1-line2d_6" />
+     <g id="ablation-1-text_3">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="231.84" y="211.536" transform="rotate(-0 231.84 211.536)">+10</text>
+     </g>
+    </g>
+    <g id="ablation-1-xtick_4">
+     <g id="ablation-1-line2d_7">
+      <path d="M 298.08 193.536  L 298.08 9.216  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="ablation-1-line2d_8" />
+     <g id="ablation-1-text_4">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="298.08" y="211.536" transform="rotate(-0 298.08 211.536)">+20</text>
+     </g>
+    </g>
+   </g>
+   <g id="ablation-1-matplotlib.axis_2">
+    <g id="ablation-1-ytick_1">
+     <g id="ablation-1-line2d_9" />
+     <g id="ablation-1-text_5">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #353431" x="58.24" y="52.164235" transform="rotate(-0 58.24 52.164235)">NQ</text>
+     </g>
+    </g>
+    <g id="ablation-1-ytick_2">
+     <g id="ablation-1-line2d_10" />
+     <g id="ablation-1-text_6">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #353431" x="58.24" y="106.376" transform="rotate(-0 58.24 106.376)">TriviaQA</text>
+     </g>
+    </g>
+    <g id="ablation-1-ytick_3">
+     <g id="ablation-1-line2d_11" />
+     <g id="ablation-1-text_7">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #353431" x="58.24" y="160.587765" transform="rotate(-0 58.24 160.587765)">ASQA</text>
+     </g>
+    </g>
+   </g>
+   <g id="ablation-1-line2d_12">
+    <path d="M 165.6 193.536  L 165.6 9.216  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #a6a198; stroke-linecap: square" />
+   </g>
+   <g id="ablation-1-patch_3">
+    <path d="M 66.24 193.536  L 298.08 193.536  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+ </g>
+ <defs>
+  <clipPath id="ablation-1-p10fbeeb058">
+   <rect x="66.24" y="9.216" width="231.84" height="184.32" />
+  </clipPath>
+ </defs>
+<g class="chart-mark" tabindex="0" role="img" aria-label="KILT–NQ, Citation precision: +14.96 percentage points. Ours 60.96% − BM25 Retriever 46.00%." data-tip-title="KILT–NQ · Citation precision" data-tip-value="+14.96 percentage points" data-tip-detail="Ours 60.96% − BM25 Retriever 46.00%." style="--bar-delay:0ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="27.40611764705877" width="220" height="20" fill="transparent" /><g id="ablation-1-bar-0-0" class="chart-bar">
+    <path d="M 165.6 37.406118  L 264.69504 37.406118  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #0072b2; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-1-point-0-0" class="chart-detail">
+    <path d="M 264.69504 37.406118  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #0072b2; stroke-width: 1.5; stroke-linecap: square" />
+    <defs>
+     <path id="ablation-1-m48a0d8f10b" d="M 0 2.5  C 0.663008 2.5 1.29895 2.236584 1.767767 1.767767  C 2.236584 1.29895 2.5 0.663008 2.5 0  C 2.5 -0.663008 2.236584 -1.29895 1.767767 -1.767767  C 1.29895 -2.236584 0.663008 -2.5 0 -2.5  C -0.663008 -2.5 -1.29895 -2.236584 -1.767767 -1.767767  C -2.236584 -1.29895 -2.5 -0.663008 -2.5 0  C -2.5 0.663008 -2.236584 1.29895 -1.767767 1.767767  C -1.29895 2.236584 -0.663008 2.5 0 2.5  z " style="stroke: #0072b2" />
+    </defs>
+    <g clip-path="url(#ablation-1-p10fbeeb058)">
+     <use xlink:href="#ablation-1-m48a0d8f10b" x="264.69504" y="37.406118" style="fill: #0072b2; stroke: #0072b2" />
+    </g>
+   </g>
+   <g id="ablation-1-value-0-0" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="270.69504" y="40.576118" transform="rotate(-0 270.69504 40.576118)">+14.96</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="KILT–NQ, Fact coverage: +12.50 percentage points. Ours 50.75% − BM25 Retriever 38.25%." data-tip-title="KILT–NQ · Fact coverage" data-tip-value="+12.50 percentage points" data-tip-detail="Ours 50.75% − BM25 Retriever 38.25%." style="--bar-delay:45ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="46.922352941176435" width="220" height="20" fill="transparent" /><g id="ablation-1-bar-0-1" class="chart-bar">
+    <path d="M 165.6 56.922353  L 248.4 56.922353  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #d55e00; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-1-point-0-1" class="chart-detail">
+    <path d="M 248.4 56.922353  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #d55e00; stroke-width: 1.5; stroke-linecap: square" />
+    <defs>
+     <path id="ablation-1-m3b38cc512e" d="M -0 3.535534  L 3.535534 0  L 0 -3.535534  L -3.535534 -0  z " style="stroke: #d55e00; stroke-linejoin: miter" />
+    </defs>
+    <g clip-path="url(#ablation-1-p10fbeeb058)">
+     <use xlink:href="#ablation-1-m3b38cc512e" x="248.4" y="56.922353" style="fill: #d55e00; stroke: #d55e00; stroke-linejoin: miter" />
+    </g>
+   </g>
+   <g id="ablation-1-value-0-1" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #d55e00" x="254.4" y="60.092353" transform="rotate(-0 254.4 60.092353)">+12.50</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="KILT–TriviaQA, Citation precision: +2.54 percentage points. Ours 54.83% − BM25 Retriever 52.29%." data-tip-title="KILT–TriviaQA · Citation precision" data-tip-value="+2.54 percentage points" data-tip-detail="Ours 54.83% − BM25 Retriever 52.29%." style="--bar-delay:90ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="81.61788235294114" width="220" height="20" fill="transparent" /><g id="ablation-1-bar-1-0" class="chart-bar">
+    <path d="M 165.6 91.617882  L 182.42496 91.617882  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #0072b2; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-1-point-1-0" class="chart-detail">
+    <path d="M 182.42496 91.617882  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #0072b2; stroke-width: 1.5; stroke-linecap: square" />
+    <g clip-path="url(#ablation-1-p10fbeeb058)">
+     <use xlink:href="#ablation-1-m48a0d8f10b" x="182.42496" y="91.617882" style="fill: #0072b2; stroke: #0072b2" />
+    </g>
+   </g>
+   <g id="ablation-1-value-1-0" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="188.42496" y="94.787882" transform="rotate(-0 188.42496 94.787882)">+2.54</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="KILT–TriviaQA, Fact coverage: +6.00 percentage points. Ours 80.75% − BM25 Retriever 74.75%." data-tip-title="KILT–TriviaQA · Fact coverage" data-tip-value="+6.00 percentage points" data-tip-detail="Ours 80.75% − BM25 Retriever 74.75%." style="--bar-delay:135ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="101.13411764705877" width="220" height="20" fill="transparent" /><g id="ablation-1-bar-1-1" class="chart-bar">
+    <path d="M 165.6 111.134118  L 205.344 111.134118  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #d55e00; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-1-point-1-1" class="chart-detail">
+    <path d="M 205.344 111.134118  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #d55e00; stroke-width: 1.5; stroke-linecap: square" />
+    <g clip-path="url(#ablation-1-p10fbeeb058)">
+     <use xlink:href="#ablation-1-m3b38cc512e" x="205.344" y="111.134118" style="fill: #d55e00; stroke: #d55e00; stroke-linejoin: miter" />
+    </g>
+   </g>
+   <g id="ablation-1-value-1-1" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #d55e00" x="211.344" y="114.304118" transform="rotate(-0 211.344 114.304118)">+6.00</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="ALCE–ASQA, Citation precision: +9.08 percentage points. Ours 56.83% − BM25 Retriever 47.75%." data-tip-title="ALCE–ASQA · Citation precision" data-tip-value="+9.08 percentage points" data-tip-detail="Ours 56.83% − BM25 Retriever 47.75%." style="--bar-delay:180ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="135.8296470588235" width="220" height="20" fill="transparent" /><g id="ablation-1-bar-2-0" class="chart-bar">
+    <path d="M 165.6 145.829647  L 225.74592 145.829647  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #0072b2; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-1-point-2-0" class="chart-detail">
+    <path d="M 225.74592 145.829647  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #0072b2; stroke-width: 1.5; stroke-linecap: square" />
+    <g clip-path="url(#ablation-1-p10fbeeb058)">
+     <use xlink:href="#ablation-1-m48a0d8f10b" x="225.74592" y="145.829647" style="fill: #0072b2; stroke: #0072b2" />
+    </g>
+   </g>
+   <g id="ablation-1-value-2-0" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="231.74592" y="148.999647" transform="rotate(-0 231.74592 148.999647)">+9.08</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="ALCE–ASQA, Fact coverage: +2.35 percentage points. Ours 22.60% − BM25 Retriever 20.25%." data-tip-title="ALCE–ASQA · Fact coverage" data-tip-value="+2.35 percentage points" data-tip-detail="Ours 22.60% − BM25 Retriever 20.25%." style="--bar-delay:225ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="155.34588235294115" width="220" height="20" fill="transparent" /><g id="ablation-1-bar-2-1" class="chart-bar">
+    <path d="M 165.6 165.345882  L 181.1664 165.345882  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #d55e00; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-1-point-2-1" class="chart-detail">
+    <path d="M 181.1664 165.345882  " clip-path="url(#ablation-1-p10fbeeb058)" style="fill: none; stroke: #d55e00; stroke-width: 1.5; stroke-linecap: square" />
+    <g clip-path="url(#ablation-1-p10fbeeb058)">
+     <use xlink:href="#ablation-1-m3b38cc512e" x="181.1664" y="165.345882" style="fill: #d55e00; stroke: #d55e00; stroke-linejoin: miter" />
+    </g>
+   </g>
+  <g id="ablation-1-value-2-1" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #d55e00" x="187.1664" y="168.515882" transform="rotate(-0 187.1664 168.515882)">+2.35</text>
+   </g>
+   </g></svg><p class="panel-note">Both citation precision and coverage improve.</p></figure><figure class="result-panel " data-chart><figcaption><h5>Selector</h5><p>Misleading evidence · NIAH + 2WikiMultiHopQA</p></figcaption><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" viewBox="0 0 331.2 230.4" version="1.1" class="result-svg" role="group" aria-label="Selector under misleading evidence: harmful-evidence removal and deletion precision, percentages">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:date>2026-10-01T16:32:54.226140</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="selector-stress-figure_1">
+  <g id="selector-stress-patch_1">
+   <path d="M 0 230.4  L 331.2 230.4  L 331.2 0  L 0 0  L 0 230.4  z " style="fill: none" />
+  </g>
+  <g id="selector-stress-axes_1">
+   <g id="selector-stress-patch_2">
+    <path d="M 99.36 96.768  L 291.456 96.768  L 291.456 27.648  L 99.36 27.648  L 99.36 96.768  z " style="fill: none" />
+   </g>
+   <g id="selector-stress-matplotlib.axis_1">
+    <g id="selector-stress-xtick_1">
+     <g id="selector-stress-line2d_1">
+      <path d="M 99.36 96.768  L 99.36 27.648  " clip-path="url(#selector-stress-pd095b6e719)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="selector-stress-line2d_2" />
+     <g id="selector-stress-text_1">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="110.768" transform="rotate(-0 99.36 110.768)">0</text>
+     </g>
+    </g>
+    <g id="selector-stress-xtick_2">
+     <g id="selector-stress-line2d_3">
+      <path d="M 159.39 96.768  L 159.39 27.648  " clip-path="url(#selector-stress-pd095b6e719)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="selector-stress-line2d_4" />
+     <g id="selector-stress-text_2">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="159.39" y="110.768" transform="rotate(-0 159.39 110.768)">5</text>
+     </g>
+    </g>
+    <g id="selector-stress-xtick_3">
+     <g id="selector-stress-line2d_5">
+      <path d="M 219.42 96.768  L 219.42 27.648  " clip-path="url(#selector-stress-pd095b6e719)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="selector-stress-line2d_6" />
+     <g id="selector-stress-text_3">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="219.42" y="110.768" transform="rotate(-0 219.42 110.768)">10</text>
+     </g>
+    </g>
+    <g id="selector-stress-xtick_4">
+     <g id="selector-stress-line2d_7">
+      <path d="M 279.45 96.768  L 279.45 27.648  " clip-path="url(#selector-stress-pd095b6e719)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="selector-stress-line2d_8" />
+     <g id="selector-stress-text_4">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="279.45" y="110.768" transform="rotate(-0 279.45 110.768)">15</text>
+     </g>
+    </g>
+   </g>
+   <g id="selector-stress-matplotlib.axis_2">
+    <g id="selector-stress-ytick_1">
+     <g id="selector-stress-line2d_9" />
+     <g id="selector-stress-text_5">
+      <text style="font-weight: 700; font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #0072b2" x="94.36" y="44.411226" transform="rotate(-0 94.36 44.411226)">Ours</text>
+     </g>
+    </g>
+    <g id="selector-stress-ytick_2">
+     <g id="selector-stress-line2d_10" />
+     <g id="selector-stress-text_6">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="94.36" y="66.708" transform="rotate(-0 94.36 66.708)">Random</text>
+     </g>
+    </g>
+    <g id="selector-stress-ytick_3">
+     <g id="selector-stress-line2d_11" />
+     <g id="selector-stress-text_7">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="94.36" y="89.004774" transform="rotate(-0 94.36 89.004774)">Bottom-rank</text>
+     </g>
+    </g>
+   </g>
+   <g id="selector-stress-patch_3">
+    <path d="M 99.36 96.768  L 291.456 96.768  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+  <g id="selector-stress-axes_2">
+   <g id="selector-stress-patch_4">
+    <path d="M 99.36 207.36  L 291.456 207.36  L 291.456 138.24  L 99.36 138.24  L 99.36 207.36  z " style="fill: none" />
+   </g>
+   <g id="selector-stress-matplotlib.axis_3">
+    <g id="selector-stress-xtick_5">
+     <g id="selector-stress-line2d_12">
+      <path d="M 99.36 207.36  L 99.36 138.24  " clip-path="url(#selector-stress-pb7c184b41a)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="selector-stress-line2d_13" />
+     <g id="selector-stress-text_8">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="221.36" transform="rotate(-0 99.36 221.36)">0</text>
+     </g>
+    </g>
+    <g id="selector-stress-xtick_6">
+     <g id="selector-stress-line2d_14">
+      <path d="M 195.408 207.36  L 195.408 138.24  " clip-path="url(#selector-stress-pb7c184b41a)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="selector-stress-line2d_15" />
+     <g id="selector-stress-text_9">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="195.408" y="221.36" transform="rotate(-0 195.408 221.36)">50</text>
+     </g>
+    </g>
+    <g id="selector-stress-xtick_7">
+     <g id="selector-stress-line2d_16">
+      <path d="M 291.456 207.36  L 291.456 138.24  " clip-path="url(#selector-stress-pb7c184b41a)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="selector-stress-line2d_17" />
+     <g id="selector-stress-text_10">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="291.456" y="221.36" transform="rotate(-0 291.456 221.36)">100</text>
+     </g>
+    </g>
+   </g>
+   <g id="selector-stress-matplotlib.axis_4">
+    <g id="selector-stress-ytick_4">
+     <g id="selector-stress-line2d_18" />
+     <g id="selector-stress-text_11">
+      <text style="font-weight: 700; font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #0072b2" x="94.36" y="155.003226" transform="rotate(-0 94.36 155.003226)">Ours</text>
+     </g>
+    </g>
+    <g id="selector-stress-ytick_5">
+     <g id="selector-stress-line2d_19" />
+     <g id="selector-stress-text_12">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="94.36" y="177.3" transform="rotate(-0 94.36 177.3)">Random</text>
+     </g>
+    </g>
+    <g id="selector-stress-ytick_6">
+     <g id="selector-stress-line2d_20" />
+     <g id="selector-stress-text_13">
+      <text style="font-size: 9px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #6f6c66" x="94.36" y="199.596774" transform="rotate(-0 94.36 199.596774)">Bottom-rank</text>
+     </g>
+    </g>
+   </g>
+   <g id="selector-stress-patch_5">
+    <path d="M 99.36 207.36  L 291.456 207.36  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+  <g id="selector-stress-text_14">
+   <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="9.936" y="15.108" transform="rotate(-0 9.936 15.108)">Harmful evidence removed (%) ↑</text>
+  </g>
+  <g id="selector-stress-text_15">
+   <text style="font-size: 10.5px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="9.936" y="125.7" transform="rotate(-0 9.936 125.7)">Deletion precision (%) ↑</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="selector-stress-pd095b6e719">
+   <rect x="99.36" y="27.648" width="192.096" height="69.12" />
+  </clipPath>
+  <clipPath id="selector-stress-pb7c184b41a">
+   <rect x="99.36" y="138.24" width="192.096" height="69.12" />
+  </clipPath>
+ </defs>
+<g class="chart-mark" tabindex="0" role="img" aria-label="Ours, Harmful evidence removed (%) ↑: 12.95%. Trained run used for the matched-control comparison (Table 4.4)." data-tip-title="Ours · Harmful evidence removed" data-tip-value="12.95%" data-tip-detail="Trained run used for the matched-control comparison (Table 4.4)." style="--bar-delay:0ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="29.91122580645162" width="331.2" height="20" fill="transparent" /><g id="selector-stress-harm_removed-0" class="chart-bar">
+    <path d="M 99.36 34.671484  L 254.8377 34.671484  L 254.8377 45.150968  L 99.36 45.150968  z " clip-path="url(#selector-stress-pd095b6e719)" style="fill: #0072b2" />
+   </g>
+   <g id="selector-stress-harm_removed-0-value" class="chart-detail">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="259.8377" y="43.081226" transform="rotate(-0 259.8377 43.081226)">12.95</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Random, Harmful evidence removed (%) ↑: 1.62%. Matches Ours’ deletion count per query. 100 repetitions." data-tip-title="Random · Harmful evidence removed" data-tip-value="1.62%" data-tip-detail="Matches Ours’ deletion count per query. 100 repetitions." style="--bar-delay:45ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="52.208000000000006" width="331.2" height="20" fill="transparent" /><g id="selector-stress-harm_removed-1" class="chart-bar">
+    <path d="M 99.36 56.968258  L 118.80972 56.968258  L 118.80972 67.447742  L 99.36 67.447742  z " clip-path="url(#selector-stress-pd095b6e719)" style="fill: #b9b8b1" />
+   </g>
+   <g id="selector-stress-harm_removed-1-value" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="123.80972" y="65.378" transform="rotate(-0 123.80972 65.378)">1.62</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Bottom-rank, Harmful evidence removed (%) ↑: 0.30%. Matches Ours’ deletion count per query." data-tip-title="Bottom-rank · Harmful evidence removed" data-tip-value="0.30%" data-tip-detail="Matches Ours’ deletion count per query." style="--bar-delay:90ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="74.50477419354839" width="331.2" height="20" fill="transparent" /><g id="selector-stress-harm_removed-2" class="chart-bar">
+    <path d="M 99.36 79.265032  L 102.9618 79.265032  L 102.9618 89.744516  L 99.36 89.744516  z " clip-path="url(#selector-stress-pd095b6e719)" style="fill: #b9b8b1" />
+   </g>
+   <g id="selector-stress-harm_removed-2-value" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="107.9618" y="87.674774" transform="rotate(-0 107.9618 87.674774)">0.30</text>
+   </g>
+  </g><g class="chart-mark" tabindex="0" role="img" aria-label="Ours, Deletion precision (%) ↑: 75.44%. Trained run used for the matched-control comparison (Table 4.4)." data-tip-title="Ours · Deletion precision" data-tip-value="75.44%" data-tip-detail="Trained run used for the matched-control comparison (Table 4.4)." style="--bar-delay:135ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="140.5032258064516" width="331.2" height="20" fill="transparent" /><g id="selector-stress-deletion_precision-0" class="chart-bar">
+    <path d="M 99.36 145.263484  L 244.277222 145.263484  L 244.277222 155.742968  L 99.36 155.742968  z " clip-path="url(#selector-stress-pb7c184b41a)" style="fill: #0072b2" />
+   </g>
+   <g id="selector-stress-deletion_precision-0-value" class="chart-detail">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="249.277222" y="153.673226" transform="rotate(-0 249.277222 153.673226)">75.44</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Random, Deletion precision (%) ↑: 9.45%. Matches Ours’ deletion count per query. 100 repetitions." data-tip-title="Random · Deletion precision" data-tip-value="9.45%" data-tip-detail="Matches Ours’ deletion count per query. 100 repetitions." style="--bar-delay:180ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="162.79999999999998" width="331.2" height="20" fill="transparent" /><g id="selector-stress-deletion_precision-1" class="chart-bar">
+    <path d="M 99.36 167.560258  L 117.513072 167.560258  L 117.513072 178.039742  L 99.36 178.039742  z " clip-path="url(#selector-stress-pb7c184b41a)" style="fill: #b9b8b1" />
+   </g>
+   <g id="selector-stress-deletion_precision-1-value" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="122.513072" y="175.97" transform="rotate(-0 122.513072 175.97)">9.45</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="Bottom-rank, Deletion precision (%) ↑: 1.75%. Matches Ours’ deletion count per query." data-tip-title="Bottom-rank · Deletion precision" data-tip-value="1.75%" data-tip-detail="Matches Ours’ deletion count per query." style="--bar-delay:225ms;--bar-origin:99.36px"><rect class="chart-hit" x="0" y="185.0967741935484" width="331.2" height="20" fill="transparent" /><g id="selector-stress-deletion_precision-2" class="chart-bar">
+    <path d="M 99.36 189.857032  L 102.72168 189.857032  L 102.72168 200.336516  L 99.36 200.336516  z " clip-path="url(#selector-stress-pb7c184b41a)" style="fill: #b9b8b1" />
+   </g>
+   <g id="selector-stress-deletion_precision-2-value" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #353431" x="107.72168" y="198.266774" transform="rotate(-0 107.72168 198.266774)">1.75</text>
+   </g>
+  </g></svg><p class="panel-note">Ours: 0% observed required-evidence / chain loss.</p></figure><figure class="result-panel " data-chart><figcaption><h5>Generator</h5><p>Ours − Direct Generator</p></figcaption><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 331.2 230.4" version="1.1" class="result-svg" role="group" aria-label="Generator: Ours minus Direct Generator, percentage points">
+ <metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:date>2026-10-01T16:32:54.333841</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="ablation-3-figure_1">
+  <g id="ablation-3-patch_1">
+   <path d="M 0 230.4  L 331.2 230.4  L 331.2 0  L 0 0  L 0 230.4  z " style="fill: none" />
+  </g>
+  <g id="ablation-3-axes_1">
+   <g id="ablation-3-patch_2">
+    <path d="M 66.24 193.536  L 298.08 193.536  L 298.08 9.216  L 66.24 9.216  L 66.24 193.536  z " style="fill: none" />
+   </g>
+   <g id="ablation-3-matplotlib.axis_1">
+    <g id="ablation-3-xtick_1">
+     <g id="ablation-3-line2d_1">
+      <path d="M 99.36 193.536  L 99.36 9.216  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="ablation-3-line2d_2" />
+     <g id="ablation-3-text_1">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="99.36" y="211.536" transform="rotate(-0 99.36 211.536)">−10</text>
+     </g>
+    </g>
+    <g id="ablation-3-xtick_2">
+     <g id="ablation-3-line2d_3">
+      <path d="M 165.6 193.536  L 165.6 9.216  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="ablation-3-line2d_4" />
+     <g id="ablation-3-text_2">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="165.6" y="211.536" transform="rotate(-0 165.6 211.536)">0</text>
+     </g>
+    </g>
+    <g id="ablation-3-xtick_3">
+     <g id="ablation-3-line2d_5">
+      <path d="M 231.84 193.536  L 231.84 9.216  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="ablation-3-line2d_6" />
+     <g id="ablation-3-text_3">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="231.84" y="211.536" transform="rotate(-0 231.84 211.536)">+10</text>
+     </g>
+    </g>
+    <g id="ablation-3-xtick_4">
+     <g id="ablation-3-line2d_7">
+      <path d="M 298.08 193.536  L 298.08 9.216  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #dddad3; stroke-opacity: 0.8; stroke-width: 0.65; stroke-linecap: square" />
+     </g>
+     <g id="ablation-3-line2d_8" />
+     <g id="ablation-3-text_4">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: middle; fill: #6f6c66" x="298.08" y="211.536" transform="rotate(-0 298.08 211.536)">+20</text>
+     </g>
+    </g>
+   </g>
+   <g id="ablation-3-matplotlib.axis_2">
+    <g id="ablation-3-ytick_1">
+     <g id="ablation-3-line2d_9" />
+     <g id="ablation-3-text_5">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #353431" x="58.24" y="52.164235" transform="rotate(-0 58.24 52.164235)">NQ</text>
+     </g>
+    </g>
+    <g id="ablation-3-ytick_2">
+     <g id="ablation-3-line2d_10" />
+     <g id="ablation-3-text_6">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #353431" x="58.24" y="106.376" transform="rotate(-0 58.24 106.376)">TriviaQA</text>
+     </g>
+    </g>
+    <g id="ablation-3-ytick_3">
+     <g id="ablation-3-line2d_11" />
+     <g id="ablation-3-text_7">
+      <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #353431" x="58.24" y="160.587765" transform="rotate(-0 58.24 160.587765)">ASQA</text>
+     </g>
+    </g>
+   </g>
+   <g id="ablation-3-line2d_12">
+    <path d="M 165.6 193.536  L 165.6 9.216  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #a6a198; stroke-linecap: square" />
+   </g>
+   <g id="ablation-3-patch_3">
+    <path d="M 66.24 193.536  L 298.08 193.536  " style="fill: none; stroke: #dddad3; stroke-width: 0.7; stroke-linejoin: miter; stroke-linecap: square" />
+   </g>
+   </g>
+ </g>
+ <defs>
+  <clipPath id="ablation-3-p1821feee81">
+   <rect x="66.24" y="9.216" width="231.84" height="184.32" />
+  </clipPath>
+ </defs>
+<g class="chart-mark" tabindex="0" role="img" aria-label="KILT–NQ, Citation precision: +11.71 percentage points. Ours 60.96% − Direct Generator 49.25%." data-tip-title="KILT–NQ · Citation precision" data-tip-value="+11.71 percentage points" data-tip-detail="Ours 60.96% − Direct Generator 49.25%." style="--bar-delay:0ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="27.40611764705877" width="220" height="20" fill="transparent" /><g id="ablation-3-bar-0-0" class="chart-bar">
+    <path d="M 165.6 37.406118  L 243.16704 37.406118  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #0072b2; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-3-point-0-0" class="chart-detail">
+    <path d="M 243.16704 37.406118  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #0072b2; stroke-width: 1.5; stroke-linecap: square" />
+    <defs>
+     <path id="ablation-3-m6b3d67347d" d="M 0 2.5  C 0.663008 2.5 1.29895 2.236584 1.767767 1.767767  C 2.236584 1.29895 2.5 0.663008 2.5 0  C 2.5 -0.663008 2.236584 -1.29895 1.767767 -1.767767  C 1.29895 -2.236584 0.663008 -2.5 0 -2.5  C -0.663008 -2.5 -1.29895 -2.236584 -1.767767 -1.767767  C -2.236584 -1.29895 -2.5 -0.663008 -2.5 0  C -2.5 0.663008 -2.236584 1.29895 -1.767767 1.767767  C -1.29895 2.236584 -0.663008 2.5 0 2.5  z " style="stroke: #0072b2" />
+    </defs>
+    <g clip-path="url(#ablation-3-p1821feee81)">
+     <use xlink:href="#ablation-3-m6b3d67347d" x="243.16704" y="37.406118" style="fill: #0072b2; stroke: #0072b2" />
+    </g>
+   </g>
+   <g id="ablation-3-value-0-0" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="249.16704" y="40.576118" transform="rotate(-0 249.16704 40.576118)">+11.71</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="KILT–NQ, Fact coverage: -9.75 percentage points. Ours 50.75% − Direct Generator 60.50%." data-tip-title="KILT–NQ · Fact coverage" data-tip-value="-9.75 percentage points" data-tip-detail="Ours 50.75% − Direct Generator 60.50%." style="--bar-delay:45ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="46.922352941176435" width="220" height="20" fill="transparent" /><g id="ablation-3-bar-0-1" class="chart-bar">
+    <path d="M 165.6 56.922353  L 101.016 56.922353  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #d55e00; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-3-point-0-1" class="chart-detail">
+    <path d="M 101.016 56.922353  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #d55e00; stroke-width: 1.5; stroke-linecap: square" />
+    <defs>
+     <path id="ablation-3-m325ef8cb65" d="M -0 3.535534  L 3.535534 0  L 0 -3.535534  L -3.535534 -0  z " style="stroke: #d55e00; stroke-linejoin: miter" />
+    </defs>
+    <g clip-path="url(#ablation-3-p1821feee81)">
+     <use xlink:href="#ablation-3-m325ef8cb65" x="101.016" y="56.922353" style="fill: #d55e00; stroke: #d55e00; stroke-linejoin: miter" />
+    </g>
+   </g>
+   <g id="ablation-3-value-0-1" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #d55e00" x="95.016" y="60.092353" transform="rotate(-0 95.016 60.092353)">-9.75</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="KILT–TriviaQA, Citation precision: +7.80 percentage points. Ours 54.83% − Direct Generator 47.03%." data-tip-title="KILT–TriviaQA · Citation precision" data-tip-value="+7.80 percentage points" data-tip-detail="Ours 54.83% − Direct Generator 47.03%." style="--bar-delay:90ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="81.61788235294114" width="220" height="20" fill="transparent" /><g id="ablation-3-bar-1-0" class="chart-bar">
+    <path d="M 165.6 91.617882  L 217.2672 91.617882  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #0072b2; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-3-point-1-0" class="chart-detail">
+    <path d="M 217.2672 91.617882  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #0072b2; stroke-width: 1.5; stroke-linecap: square" />
+    <g clip-path="url(#ablation-3-p1821feee81)">
+     <use xlink:href="#ablation-3-m6b3d67347d" x="217.2672" y="91.617882" style="fill: #0072b2; stroke: #0072b2" />
+    </g>
+   </g>
+   <g id="ablation-3-value-1-0" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="223.2672" y="94.787882" transform="rotate(-0 223.2672 94.787882)">+7.80</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="KILT–TriviaQA, Fact coverage: -3.25 percentage points. Ours 80.75% − Direct Generator 84.00%." data-tip-title="KILT–TriviaQA · Fact coverage" data-tip-value="-3.25 percentage points" data-tip-detail="Ours 80.75% − Direct Generator 84.00%." style="--bar-delay:135ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="101.13411764705877" width="220" height="20" fill="transparent" /><g id="ablation-3-bar-1-1" class="chart-bar">
+    <path d="M 165.6 111.134118  L 144.072 111.134118  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #d55e00; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-3-point-1-1" class="chart-detail">
+    <path d="M 144.072 111.134118  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #d55e00; stroke-width: 1.5; stroke-linecap: square" />
+    <g clip-path="url(#ablation-3-p1821feee81)">
+     <use xlink:href="#ablation-3-m325ef8cb65" x="144.072" y="111.134118" style="fill: #d55e00; stroke: #d55e00; stroke-linejoin: miter" />
+    </g>
+   </g>
+   <g id="ablation-3-value-1-1" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #d55e00" x="138.072" y="114.304118" transform="rotate(-0 138.072 114.304118)">-3.25</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="ALCE–ASQA, Citation precision: +15.16 percentage points. Ours 56.83% − Direct Generator 41.67%." data-tip-title="ALCE–ASQA · Citation precision" data-tip-value="+15.16 percentage points" data-tip-detail="Ours 56.83% − Direct Generator 41.67%." style="--bar-delay:180ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="135.8296470588235" width="220" height="20" fill="transparent" /><g id="ablation-3-bar-2-0" class="chart-bar">
+    <path d="M 165.6 145.829647  L 266.01984 145.829647  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #0072b2; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-3-point-2-0" class="chart-detail">
+    <path d="M 266.01984 145.829647  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #0072b2; stroke-width: 1.5; stroke-linecap: square" />
+    <g clip-path="url(#ablation-3-p1821feee81)">
+     <use xlink:href="#ablation-3-m6b3d67347d" x="266.01984" y="145.829647" style="fill: #0072b2; stroke: #0072b2" />
+    </g>
+   </g>
+   <g id="ablation-3-value-2-0" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: start; fill: #0072b2" x="272.01984" y="148.999647" transform="rotate(-0 272.01984 148.999647)">+15.16</text>
+   </g>
+   </g><g class="chart-mark" tabindex="0" role="img" aria-label="ALCE–ASQA, Fact coverage: -7.15 percentage points. Ours 22.60% − Direct Generator 29.75%." data-tip-title="ALCE–ASQA · Fact coverage" data-tip-value="-7.15 percentage points" data-tip-detail="Ours 22.60% − Direct Generator 29.75%." style="--bar-delay:225ms;--bar-origin:165.60px"><rect class="chart-hit" x="110.59999999999997" y="155.34588235294115" width="220" height="20" fill="transparent" /><g id="ablation-3-bar-2-1" class="chart-bar">
+    <path d="M 165.6 165.345882  L 118.2384 165.345882  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #d55e00; stroke-width: 2.5; stroke-linecap: round" />
+   </g>
+   <g id="ablation-3-point-2-1" class="chart-detail">
+    <path d="M 118.2384 165.345882  " clip-path="url(#ablation-3-p1821feee81)" style="fill: none; stroke: #d55e00; stroke-width: 1.5; stroke-linecap: square" />
+    <g clip-path="url(#ablation-3-p1821feee81)">
+     <use xlink:href="#ablation-3-m325ef8cb65" x="118.2384" y="165.345882" style="fill: #d55e00; stroke: #d55e00; stroke-linejoin: miter" />
+    </g>
+   </g>
+  <g id="ablation-3-value-2-1" class="chart-detail">
+    <text style="font-size: 10px; font-family: 'Avenir Next', 'DejaVu Sans'; text-anchor: end; fill: #d55e00" x="112.2384" y="168.515882" transform="rotate(-0 112.2384 168.515882)">-7.15</text>
+   </g>
+   </g></svg><p class="panel-note">More precise citations; fewer reference facts.</p></figure></div></div>
+   <details class="disclosure"><summary>Full ablation results</summary><div class="disclosure-body"><p>Each comparison changes one module and keeps the others fixed. “Ours” uses a single fixed run here; the overall comparison above reports three-run means. All values are percentages. Report Tables 4.11–4.13.</p><p>The Selector chart shows the misleading-evidence test in Table 4.4: Ours is the trained run used for the count-matched comparison (Seed 13). Both controls match its deletions per query; random deletion uses 100 repetitions. Required-evidence and chain loss were zero for Ours; these losses were not evaluated for the controls.</p><div class="rag-table-wrap" role="region" aria-label="KILT–NQ results" tabindex="0"><table class="rag-table"><caption>KILT–NQ</caption><thead><tr><th scope="col">Configuration</th><th scope="col">RFC ↑</th><th scope="col">VRFC ↑</th><th scope="col">UCR ↓</th><th scope="col">CP ↑</th><th scope="col">CR ↑</th><th scope="col">RR ↑</th></tr></thead><tbody><tr class="our-result"><th scope="row">Ours</th><td>50.75</td><td>37.75</td><td>19.31</td><td>60.96</td><td>62.00</td><td>93.25</td></tr><tr class=""><th scope="row">BM25 Retriever</th><td>38.25</td><td>24.25</td><td>32.16</td><td>46.00</td><td>46.63</td><td>91.50</td></tr><tr class=""><th scope="row">Keep-all Top-10</th><td>50.25</td><td>37.00</td><td>19.25</td><td>59.96</td><td>61.00</td><td>92.25</td></tr><tr class=""><th scope="row">Direct Generator</th><td>60.50</td><td>37.75</td><td>17.74</td><td>49.25</td><td>55.20</td><td>97.00</td></tr></tbody></table></div><div class="rag-table-wrap" role="region" aria-label="KILT–TriviaQA results" tabindex="0"><table class="rag-table"><caption>KILT–TriviaQA</caption><thead><tr><th scope="col">Configuration</th><th scope="col">RFC ↑</th><th scope="col">VRFC ↑</th><th scope="col">UCR ↓</th><th scope="col">CP ↑</th><th scope="col">CR ↑</th><th scope="col">RR ↑</th></tr></thead><tbody><tr class="our-result"><th scope="row">Ours</th><td>80.75</td><td>55.25</td><td>20.11</td><td>54.83</td><td>57.88</td><td>90.50</td></tr><tr class=""><th scope="row">BM25 Retriever</th><td>74.75</td><td>52.25</td><td>22.47</td><td>52.29</td><td>55.58</td><td>88.25</td></tr><tr class=""><th scope="row">Keep-all Top-10</th><td>80.75</td><td>55.25</td><td>20.11</td><td>54.83</td><td>57.88</td><td>90.50</td></tr><tr class=""><th scope="row">Direct Generator</th><td>84.00</td><td>49.00</td><td>20.52</td><td>47.03</td><td>52.33</td><td>95.00</td></tr></tbody></table></div><div class="rag-table-wrap" role="region" aria-label="ALCE–ASQA results" tabindex="0"><table class="rag-table"><caption>ALCE–ASQA</caption><thead><tr><th scope="col">Configuration</th><th scope="col">RFC ↑</th><th scope="col">VRFC ↑</th><th scope="col">UCR ↓</th><th scope="col">CP ↑</th><th scope="col">CR ↑</th><th scope="col">RR ↑</th></tr></thead><tbody><tr class="our-result"><th scope="row">Ours</th><td>22.60</td><td>17.99</td><td>21.95</td><td>56.83</td><td>58.00</td><td>91.75</td></tr><tr class=""><th scope="row">BM25 Retriever</th><td>20.25</td><td>14.98</td><td>30.45</td><td>47.75</td><td>48.38</td><td>89.25</td></tr><tr class=""><th scope="row">Keep-all Top-10</th><td>22.75</td><td>17.93</td><td>20.94</td><td>56.21</td><td>57.50</td><td>90.25</td></tr><tr class=""><th scope="row">Direct Generator</th><td>29.75</td><td>15.90</td><td>20.88</td><td>41.67</td><td>48.21</td><td>94.75</td></tr></tbody></table></div></div></details>
+  </div>
+ </section>
+ <section class="research-section" id="next-question" aria-labelledby="outlook-title"><div class="section-heading"><p class="section-label">03 / The next question</p><h2 id="outlook-title">Can verification guide the next evidence decision?</h2><p class="section-intro">The current pipeline passes evidence forward. A next step is to use feedback from the answer to guide what the system retrieves, protects or checks next.</p></div><div class="rag-outlook"><p>The clearest result is improved citation support. Preserving answer completeness while reducing unsupported content remains open.</p><p>Evaluation covers public benchmarks and a research prototype. Evolving document versions, access permissions and live enterprise workloads require further study.</p></div></section>
+ <footer class="project-footer"><a href="../../#rag-project" data-home-link>← Back to Selected Work</a><span>Report snapshot · September 2026</span><a href="#project-content">Back to top ↑</a></footer>
+</main><script src="../../assets/scripts/reliable-evidence-flow.js" defer></script></body></html>

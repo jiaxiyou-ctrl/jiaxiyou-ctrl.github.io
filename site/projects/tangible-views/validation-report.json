@@ -1,0 +1,219 @@
+{
+  "applicationVersion": "0.9.0",
+  "sourceHashes": {
+    "core.mjs": "9d2e7b575622477a1852e79b893f7d2164560ffc00dc0c53bdc84bd10cfb1f21",
+    "workspace.mjs": "d8a60fcbb684d617179603e422c0850635a0dd465b8b21c174db688d06c950bc",
+    "draw.mjs": "ec7c4855c740b371bc412997e92bb2f0d0b124ce37bc555b984f9b38b05f4013",
+    "scene.mjs": "38bfa9c024ab4fedb191f1cd60aff968af3349388832b25f614791ab892209fc",
+    "app.mjs": "7da48b4daf7cf4614df3c24e889a430ffbe665f1b8f33a6756bc37b8e3dc6357",
+    "session-mode.mjs": "66709d85c68f1523215d9125dde2d4a441881626ae72878be1d9ffd7f2dae2dc",
+    "feedback.mjs": "6ba8e8c1b56259ff9fef1b027e5aa4a22b954577ec4853bd49542245b7fdb951",
+    "i18n.mjs": "89552269cbf7630a4cd2267582b565ecad2cd83d40d1bf6201a58f32d96bc4cc"
+  },
+  "generatedAt": "2026-09-22T19:09:52.552Z",
+  "runtime": "Node v20.19.6 · darwin/arm64",
+  "sourceHash": "9d2e7b575622477a1852e79b893f7d2164560ffc00dc0c53bdc84bd10cfb1f21",
+  "workspaceSourceHash": "d8a60fcbb684d617179603e422c0850635a0dd465b8b21c174db688d06c950bc",
+  "drawSourceHash": "ec7c4855c740b371bc412997e92bb2f0d0b124ce37bc555b984f9b38b05f4013",
+  "sceneSourceHash": "38bfa9c024ab4fedb191f1cd60aff968af3349388832b25f614791ab892209fc",
+  "scope": "Virtual geometry, viewpoint mathematics, workspace persistence, practice/demo isolation, visual feedback, localization and gesture/menu logic. Actual browser checks and learning outcomes are recorded separately.",
+  "statesChecked": 262144,
+  "durationMs": 1422.42575,
+  "tests": [
+    {
+      "name": "语言入口保留示例模式、路径与锚点",
+      "passed": true,
+      "durationMs": 0.44137500000000074
+    },
+    {
+      "name": "中英文使用同一题库；所有题目与解释均有英文",
+      "passed": true,
+      "durationMs": 0.40008299999999863
+    },
+    {
+      "name": "动态操作、数量和状态翻译不丢失参数",
+      "passed": true,
+      "durationMs": 0.5760000000000005
+    },
+    {
+      "name": "示例使用独立空会话；练习可原样恢复已有搭建与提交",
+      "passed": true,
+      "durationMs": 1.0109999999999992
+    },
+    {
+      "name": "示例载入完整答案也不能提交或覆盖练习存档",
+      "passed": true,
+      "durationMs": 0.11291699999999949
+    },
+    {
+      "name": "练习保存后可跨会话恢复；只统计不同正确提交",
+      "passed": true,
+      "durationMs": 0.48766700000000185
+    },
+    {
+      "name": "存储失败保留当前会话并返回未保存状态",
+      "passed": true,
+      "durationMs": 0.1077500000000029
+    },
+    {
+      "name": "解释问题只在当前正确结构已经提交时显示",
+      "passed": true,
+      "durationMs": 0.18391699999999744
+    },
+    {
+      "name": "多解概念示例结构不同、投影相同且不同于最终练习目标",
+      "passed": true,
+      "durationMs": 0.15858300000000014
+    },
+    {
+      "name": "格子重绘移除原点击目标后，内部点击仍保持菜单打开；外部点击关闭",
+      "passed": true,
+      "durationMs": 0.26558299999999946
+    },
+    {
+      "name": "透视编辑为完全遮挡的中心格提供独立命中区域",
+      "passed": true,
+      "durationMs": 1.4621250000000003
+    },
+    {
+      "name": "图示提示在正确的投影格中区分缺少和多出",
+      "passed": true,
+      "durationMs": 0.1544579999999982
+    },
+    {
+      "name": "俯视提示保持前后方向；多解的正确投影不标黄",
+      "passed": true,
+      "durationMs": 0.02354100000000159
+    },
+    {
+      "name": "分级题库的阶段、解数、样例和完成要求均一致",
+      "passed": true,
+      "durationMs": 1.685333
+    },
+    {
+      "name": "只有提交正确答案才完成普通题；修改和清空不会丢失完成记录",
+      "passed": true,
+      "durationMs": 0.18316700000000097
+    },
+    {
+      "name": "多解探索题必须提交两种不同的正确搭法",
+      "passed": true,
+      "durationMs": 0.40812500000000185
+    },
+    {
+      "name": "题库扩展后保留旧题进度，新题独立初始化，完成状态可恢复",
+      "passed": true,
+      "durationMs": 0.6372080000000011
+    },
+    {
+      "name": "三个相邻方块及三层堆叠在正投影视角下保留独立单位面",
+      "passed": true,
+      "durationMs": 0.33166700000000304
+    },
+    {
+      "name": "方块边线具有足够对比度，缩放不变细，平视时不显示重叠方向标签",
+      "passed": true,
+      "durationMs": 0.9995830000000012
+    },
+    {
+      "name": "左键添加、右键与 Shift 移除；拖动和取消不误改结构",
+      "passed": true,
+      "durationMs": 0.4759170000000026
+    },
+    {
+      "name": "撤销重做恢复结构快照；新编辑清除旧的重做分支",
+      "passed": true,
+      "durationMs": 0.1402920000000023
+    },
+    {
+      "name": "保存方案相互独立；重复保存不增加记录",
+      "passed": true,
+      "durationMs": 0.11650000000000205
+    },
+    {
+      "name": "两个练习的进度、撤销重做与方案可完整保存恢复",
+      "passed": true,
+      "durationMs": 0.4532500000000006
+    },
+    {
+      "name": "损坏或不完整的存档不会阻止正常搭建",
+      "passed": true,
+      "durationMs": 0.4030830000000023
+    },
+    {
+      "name": "标准视角方向正确；放置预览不修改实际结构",
+      "passed": true,
+      "durationMs": 0.7561249999999973
+    },
+    {
+      "name": "增减方块后更新投影，并保留原状态",
+      "passed": true,
+      "durationMs": 0.1177499999999938
+    },
+    {
+      "name": "编辑遵守层数限制；未知输入不能直接修改",
+      "passed": true,
+      "durationMs": 0.12258299999999878
+    },
+    {
+      "name": "手算例子的三个视图正确",
+      "passed": true,
+      "durationMs": 0.029582999999995252
+    },
+    {
+      "name": "空板、满板与不对称边界结构正确",
+      "passed": true,
+      "durationMs": 0.04516699999999929
+    },
+    {
+      "name": "拒绝格式错误及越界的输入",
+      "passed": true,
+      "durationMs": 0.08970800000000168
+    },
+    {
+      "name": "未知位置暂停判题；零层是有效输入",
+      "passed": true,
+      "durationMs": 0.0784579999999977
+    },
+    {
+      "name": "差异提示定位到正确视图和位置",
+      "passed": true,
+      "durationMs": 0.03904200000000202
+    },
+    {
+      "name": "接受不同的正确搭法",
+      "passed": true,
+      "durationMs": 0.037041999999999575
+    },
+    {
+      "name": "组合还原题有一个解；多解探索题有七个解",
+      "passed": true,
+      "durationMs": 0.29641699999999815
+    },
+    {
+      "name": "修改结构后清除旧反馈与提示",
+      "passed": true,
+      "durationMs": 0.03275000000000006
+    },
+    {
+      "name": "重复检查不增加不同方案数量",
+      "passed": true,
+      "durationMs": 0.05099999999999483
+    },
+    {
+      "name": "重置得到独立的新会话",
+      "passed": true,
+      "durationMs": 0.011665999999998178
+    },
+    {
+      "name": "输入接口检查并复制数据帧",
+      "passed": true,
+      "durationMs": 0.05562499999999915
+    },
+    {
+      "name": "全部 262,144 种允许结构与独立体素投影算法一致",
+      "passed": true,
+      "durationMs": 1402.666708
+    }
+  ]
+}

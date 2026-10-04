@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jiaxiyou-ctrl.github.io/sitemap.xml

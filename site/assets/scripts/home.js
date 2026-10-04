@@ -1,0 +1,5 @@
+const cvDialog=document.getElementById('cv-dialog');
+document.getElementById('cv-open').addEventListener('click',()=>cvDialog.showModal());
+for(const button of document.querySelectorAll('[data-close]'))button.addEventListener('click',()=>document.getElementById(button.dataset.close).close());
+for(const button of document.querySelectorAll('[data-collapse]'))button.addEventListener('click',()=>{const project=document.getElementById(button.dataset.collapse);project.open=false;const summary=project.querySelector('summary');summary.focus({preventScroll:true});const bounds=summary.getBoundingClientRect();if(bounds.top<95||bounds.bottom>window.innerHeight)summary.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})});
+for(const dialog of document.querySelectorAll('dialog'))dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close()});

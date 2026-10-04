@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Learning phase-aware needle control for retinal injection to meet micrometer-scale precision and safety requirements."><title>Learning Needle Control for Retinal Injection — Jiaxi You</title>
+<link rel="stylesheet" href="../../assets/styles/robotic-microsurgery.css">
+<link rel="canonical" href="https://jiaxiyou-ctrl.github.io/projects/robotic-microsurgery/">
+</head><body>
+<a class="skip-link" href="#project-content">Skip to project</a>
+<header class="project-header">
+ <div class="header-inner">
+  <a class="return-link" href="../../#robot-project" data-home-link><svg viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><path d="M16 10H5m5-5-5 5 5 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Jiaxi You <span aria-hidden="true">/</span> Selected Work</a>
+  <nav class="project-nav" aria-label="Project sections">
+   <a href="#demo">Demo</a><a href="#research-problem">Task</a><a href="#executable-policy">Method</a><a href="#design-evidence">Results</a><a href="#robot-realisation">Across robots</a>
+  </nav>
+ </div>
+</header>
+<main class="project-main" id="project-content" tabindex="-1">
+ <header class="project-hero">
+  <p class="eyebrow"><span>Robot learning</span><span>AAAI · Passed Phase 1 Review</span></p>
+  <h1>Learning Needle Control for Retinal Injection</h1>
+  <p class="hero-summary">Learning phase-aware needle control for retinal injection to meet micrometer-scale precision and safety requirements.</p>
+  <p class="affiliation">University of Bristol · Weiru Liu Research Group</p>
+ </header>
+
+ <section class="demo-section" id="demo" aria-labelledby="demo-label">
+  <h2 class="visually-hidden" id="demo-label">Retinal injection in simulation</h2>
+  <figure>
+   <div class="demo-frame"><video id="simulation-video" width="1280" height="720" controls muted loop playsinline preload="metadata" poster="../../assets/images/retinal-injection-poster.png" aria-label="Three-second simulated retinal injection, showing the robot and an enlarged view of the needle"><source src="../../assets/videos/retinal-injection.mp4" type="video/mp4">Your browser does not support this video. <a href="../../assets/videos/retinal-injection.mp4">Open the simulation video.</a></video></div>
+   <figcaption class="media-caption"><span><strong>Retinal injection in simulation</strong> · robot view and needle close-up</span></figcaption>
+  </figure>
+ </section>
+
+ <section class="research-section" id="research-problem" aria-labelledby="problem-title">
+  <div class="section-heading task-heading">
+   <p class="section-label">01 / The task</p>
+   <h2 id="problem-title">Placing a needle precisely beneath the retina</h2>
+   <p class="task-purpose">Subretinal injection delivers treatments, including gene therapies, beneath the retina. The needle must reach this delicate region without damaging surrounding tissue.</p>
+   <p class="section-intro">We study robotic needle control in simulation: reaching a prescribed target with <strong>micrometer-scale precision</strong> while constraining lateral motion and insertion depth.</p>
+  </div>
+  <figure class="retinal-task" aria-labelledby="task-diagram-caption">
+   <div class="retinal-task-canvas">
+    <div class="retinal-overview">
+     <svg viewBox="0 0 440 420" role="img" aria-labelledby="retinal-overview-title retinal-overview-desc">
+      <title id="retinal-overview-title">From the eye entry point to the subretinal target</title>
+      <desc id="retinal-overview-desc">The needle aligns with a prescribed entry point, then advances along an axis towards the retina at the back of the eye. The highlighted target region is enlarged alongside the eye.</desc>
+      <image href="../../assets/images/retinal-task-base.png" x="0" y="14" width="410" height="410"/>
+      <path class="rt-route" d="M318.46 105.22 269.74 325.60"/>
+      <g class="rt-overview-needle" transform="translate(269.74 325.60) rotate(12.47)">
+       <path class="rt-needle" d="M-2.8-310H2.8V-12L0 0-2.8-12Z"/>
+       <path class="rt-needle-glint" d="M-.8-307V-16"/>
+      </g>
+      <circle class="rt-entry" cx="318.46" cy="105.22" r="6"/>
+      <path class="rt-leader" d="M326 104H365V85"/>
+      <text x="366" y="73" text-anchor="middle">Entry</text>
+      <path class="rt-leader" d="M56 245H8V239"/>
+      <text x="-10" y="231">Retina</text>
+      <circle class="rt-overview-target" cx="269.74" cy="325.60" r="7"/>
+      <circle class="rt-focus-ring" cx="269.74" cy="325.60" r="27"/>
+      <path class="rt-zoom-link" d="M298 319 407 242"/>
+      <path class="rt-zoom-arrow" d="m395 241 12 1-4 12"/>
+     </svg>
+    </div>
+    <div class="retinal-detail">
+     <svg class="rt-desktop-detail" viewBox="0 0 660 420" role="img" aria-labelledby="retinal-detail-title retinal-detail-desc">
+      <title id="retinal-detail-title">Precise placement with limits on lateral drift and insertion depth</title>
+      <desc id="retinal-detail-desc">An enlarged schematic shows a needle advancing through retinal tissue to a subretinal target above the retinal pigment epithelium. A transverse arrow indicates lateral motion to limit. A dashed continuation beyond the target indicates overshoot to prevent. Layer spacing is exaggerated for visibility; no fluid delivery is shown.</desc>
+      <defs>
+       <marker id="rt-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 6 4 1 7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker>
+       <clipPath id="rt-detail-clip"><rect x="16" y="18" width="628" height="387" rx="12"/></clipPath>
+      </defs>
+      <text class="rt-detail-heading" x="30" y="38">At the target</text>
+      <g clip-path="url(#rt-detail-clip)">
+       <path class="rt-retina" d="M16 271Q179 260 330 282T644 283V320Q496 336 330 319T16 308Z"/>
+       <path class="rt-retina-edge" d="M16 271Q179 260 330 282T644 283M16 308Q179 297 330 319T644 320"/>
+       <path class="rt-rpe" d="M16 345Q179 335 330 357T644 358V374Q490 389 330 373T16 361Z"/>
+       <path class="rt-rpe-edge" d="M16 345Q179 335 330 357T644 358"/>
+       <path class="rt-axis" d="M389 71 330 338"/>
+       <g class="rt-overshoot">
+        <path d="M330 338 317 397" marker-end="url(#rt-arrow)"/>
+        <path class="rt-depth-stop" d="m313 334 34 8"/>
+       </g>
+       <circle class="rt-target-halo" cx="330" cy="338" r="17"/>
+       <circle class="rt-target" cx="330" cy="338" r="5"/>
+       <g class="rt-detail-needle" data-tip-x="330" data-tip-y="338" transform="translate(330 338) rotate(12.47)">
+        <path class="rt-needle" d="M-4.2-315H4.2V-15L0 0-4.2-15Z"/>
+        <path class="rt-needle-glint" d="M-1.5-310V-20"/>
+       </g>
+      </g>
+      <g class="rt-drift">
+       <path class="rt-drift-arrow" d="m286 195 109 24" marker-start="url(#rt-arrow)" marker-end="url(#rt-arrow)"/>
+       <path class="rt-leader" d="M401 210H431"/>
+       <text class="rt-constraint" x="445" y="209">Limit lateral drift</text>
+      </g>
+      <g class="rt-placement">
+       <path class="rt-target-leader" d="M343 326 399 117H429"/>
+       <text class="rt-emphasis" x="442" y="113">Precise placement</text>
+       <text class="rt-note" x="442" y="138">Micrometer-scale precision</text>
+      </g>
+      <g class="rt-depth-label">
+       <path class="rt-leader" d="M316 386H404"/>
+       <text class="rt-constraint" x="418" y="394">Prevent overshoot</text>
+      </g>
+      <text class="rt-tissue-label" x="35" y="292">Retina</text>
+      <text class="rt-target-label" x="35" y="330">Subretinal target</text>
+      <path class="rt-target-leader" d="M178 329 306 337"/>
+      <text class="rt-tissue-label rt-rpe-label" x="35" y="360">RPE</text>
+     </svg>
+     <svg class="rt-mobile-detail" viewBox="0 0 400 440" role="img" aria-labelledby="retinal-mobile-title retinal-mobile-desc">
+      <title id="retinal-mobile-title">Precise placement beneath the retina</title>
+      <desc id="retinal-mobile-desc">The needle advances to the subretinal target above the retinal pigment epithelium, labelled RPE. Sideways motion is constrained and advancement stops at the target. The layer spacing is exaggerated for visibility.</desc>
+      <defs>
+       <marker id="rt-mobile-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 6 4 1 7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker>
+       <clipPath id="rt-mobile-clip"><rect x="10" y="35" width="380" height="390" rx="8"/></clipPath>
+      </defs>
+      <text class="rt-detail-heading" x="12" y="27">At the target</text>
+      <g clip-path="url(#rt-mobile-clip)">
+       <path class="rt-retina" d="M10 272Q90 263 173 282T390 283V320Q283 336 173 319T10 309Z"/>
+       <path class="rt-retina-edge" d="M10 272Q90 263 173 282T390 283M10 309Q90 300 173 319T390 320"/>
+       <path class="rt-rpe" d="M10 351Q90 342 173 359T390 360V377Q283 389 173 375T10 369Z"/>
+       <path class="rt-rpe-edge" d="M10 351Q90 342 173 359T390 360"/>
+       <path class="rt-axis" d="M232 73 173 340"/>
+       <g class="rt-overshoot"><path d="M173 340 160 399" marker-end="url(#rt-mobile-arrow)"/><path class="rt-depth-stop" d="m156 336 34 8"/></g>
+       <circle class="rt-target-halo" cx="173" cy="340" r="15"/>
+       <circle class="rt-target" cx="173" cy="340" r="4"/>
+       <g class="rt-detail-needle" data-tip-x="173" data-tip-y="340" transform="translate(173 340) rotate(12.47)"><path class="rt-needle" d="M-4.2-315H4.2V-15L0 0-4.2-15Z"/><path class="rt-needle-glint" d="M-1.5-310V-20"/></g>
+      </g>
+      <g class="rt-drift">
+       <path class="rt-drift-arrow" d="m131 200 93 20.5" marker-start="url(#rt-mobile-arrow)" marker-end="url(#rt-mobile-arrow)"/>
+       <text class="rt-constraint" x="244" y="212">Limit lateral<tspan x="244" dy="21">drift</tspan></text>
+      </g>
+      <g class="rt-placement">
+       <path class="rt-target-leader" d="M184 329 226 115H236"/>
+       <text class="rt-emphasis" x="244" y="112">Precise<tspan x="244" dy="21">placement</tspan></text>
+      </g>
+      <g class="rt-depth-label"><path class="rt-leader" d="M160 393H233"/><text class="rt-constraint" x="244" y="396">Prevent<tspan x="244" dy="21">overshoot</tspan></text></g>
+      <text class="rt-tissue-label" x="20" y="292">Retina</text>
+      <text class="rt-target-label" x="20" y="335">Subretinal target</text>
+      <text class="rt-tissue-label rt-rpe-label" x="20" y="367">RPE</text>
+     </svg>
+    </div>
+   </div>
+   <figcaption class="retinal-task-caption" id="task-diagram-caption">
+    <span>Task schematic · not to scale</span>
+    <button type="button" class="task-replay" aria-label="Replay needle-control task animation" hidden><svg width="15" height="15" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a6.5 6.5 0 1 1-.3 6M4 2v5h5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Replay</button>
+   </figcaption>
+  </figure>
+  <p class="task-takeaway">Align before entry. Advance along the insertion axis. Stop at the target.</p>
+ </section>
+
+ <section class="research-section" id="executable-policy" aria-labelledby="policy-title">
+  <div class="section-heading"><p class="section-label">02 / The method</p><h2 id="policy-title">Learn the action. Make its execution explicit.</h2><p class="section-intro">Watch how phase rules shape a proposal, then how the full policy learns and is refined.</p></div>
+  <div class="method-sequence" role="region" aria-label="Animated method explanation" data-chapter="rules" data-phase="alignment">
+    <nav class="sequence-chapters" aria-label="Animation chapters">
+      <button type="button" data-chapter-seek="0" aria-current="step"><span>01</span> Action rules<i></i></button>
+      <button type="button" data-chapter-seek="1"><span>02</span> Full policy<i></i></button>
+      <button type="button" data-chapter-seek="2"><span>03</span> Local repair<i></i></button>
+    </nav>
+    <div class="sequence-screen">
+      <div class="sequence-heading"><p class="sequence-context" id="sequence-context">Same frozen model · adding the contract &amp; decoder</p><h3 id="sequence-title">Align before entering.</h3></div>
+      <div class="sequence-phase-bar" role="group" aria-label="Jump to a procedure phase">
+        <button type="button" data-phase-seek="0" aria-pressed="true">Alignment</button><span aria-hidden="true">→</span><button type="button" data-phase-seek="1" aria-pressed="false">Entry</button><span aria-hidden="true">→</span><button type="button" data-phase-seek="2" aria-pressed="false">Insertion</button>
+      </div>
+      <div class="sequence-stage">
+        <div class="sequence-view sequence-rules-view" data-view="rules">
+          <div class="sequence-lanes">
+            <figure class="sequence-lane"><figcaption><strong>Model proposes</strong><span>Before phase rules</span></figcaption><svg class="sequence-needle-scene" data-scene="proposal" viewBox="0 0 300 252" role="img" aria-labelledby="sequence-scene-title-proposal">
+      <title id="sequence-scene-title-proposal">A model proposal during the selected phase. Mechanism schematic, not a recorded trajectory.</title>
+      <defs><marker id="sequence-arrow-proposal" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 7 3.5 0 7"/></marker></defs>
+      <path class="seq-axis" d="M150 18V243"/>
+      <path class="seq-surface" d="M38 135Q94 129 150 135T262 135"/>
+      <circle class="seq-entry" cx="150" cy="135" r="5"/>
+      <g class="seq-depth"><rect x="108" y="204" width="84" height="19" rx="3"/><path d="M110 222H190"/></g>
+      <circle class="seq-target" cx="150" cy="222" r="5"/>
+      <path class="seq-ghost" d="M118 88L150 128"/>
+      <path class="seq-component" d="M118 88H150V128"/>
+      <path class="seq-arrow" d="M118 88L150 128" marker-end="url(#sequence-arrow-proposal)"/>
+      <path class="seq-rotation" d="M89 64A36 36 0 0 1 139 57" marker-end="url(#sequence-arrow-proposal)"/>
+      <g class="seq-blocked"><path d="m188 123 12 12m0-12-12 12"/></g>
+      <g class="seq-needle"><path class="seq-shaft" d="M0-65V-8L0 0L3-8V-65Z"/><circle class="seq-tip" r="3.5"/></g>
+      <circle class="seq-origin" cx="118" cy="88" r="3"/>
+      <g class="seq-stop"><path d="M134 204H166"/><circle cx="150" cy="204" r="8"/></g>
+    </svg><p class="sequence-lane-note" id="sequence-proposal-note">Position + angle correction</p></figure>
+            <figure class="sequence-lane sequence-permitted"><figcaption><strong>Rules permit</strong><span>After contract + decoder</span></figcaption><svg class="sequence-needle-scene" data-scene="permitted" viewBox="0 0 300 252" role="img" aria-labelledby="sequence-scene-title-permitted">
+      <title id="sequence-scene-title-permitted">The permitted needle motion during the selected phase. Mechanism schematic, not a recorded trajectory.</title>
+      <defs><marker id="sequence-arrow-permitted" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 7 3.5 0 7"/></marker></defs>
+      <path class="seq-axis" d="M150 18V243"/>
+      <path class="seq-surface" d="M38 135Q94 129 150 135T262 135"/>
+      <circle class="seq-entry" cx="150" cy="135" r="5"/>
+      <g class="seq-depth"><rect x="108" y="204" width="84" height="19" rx="3"/><path d="M110 222H190"/></g>
+      <circle class="seq-target" cx="150" cy="222" r="5"/>
+      <path class="seq-ghost" d="M118 88L150 128"/>
+      <path class="seq-component" d="M118 88H150V128"/>
+      <path class="seq-arrow" d="M118 88L150 128" marker-end="url(#sequence-arrow-permitted)"/>
+      <path class="seq-rotation" d="M89 64A36 36 0 0 1 139 57" marker-end="url(#sequence-arrow-permitted)"/>
+      <g class="seq-blocked"><path d="m188 123 12 12m0-12-12 12"/></g>
+      <g class="seq-needle"><path class="seq-shaft" d="M0-65V-8L0 0L3-8V-65Z"/><circle class="seq-tip" r="3.5"/></g>
+      <circle class="seq-origin" cx="118" cy="88" r="3"/>
+      <g class="seq-stop"><path d="M134 204H166"/><circle cx="150" cy="204" r="8"/></g>
+    </svg><p class="sequence-lane-note" id="sequence-permitted-note">Bounded position + angle correction</p></figure>
+          </div>
+          <div class="sequence-legend"><span><i class="legend-raw"></i> Proposed</span><span><i class="legend-allowed"></i> Permitted</span><span><i class="legend-target"></i> Target</span><small>Mechanism schematic · not a recorded rollout</small></div>
+        </div>
+        <div class="sequence-view sequence-policy-view" data-view="policy" hidden>
+          <div class="sequence-policy-diagram">
+            <div class="sequence-encoder"><span class="seq-overline">Observation</span><div class="seq-node">Shared<br>encoder</div><span class="seq-under">One representation</span></div>
+            <div class="sequence-heads"><span class="seq-overline">Select one head</span><div class="seq-head" data-head="0"><span>A</span> Alignment</div><div class="seq-head" data-head="1"><span>A2</span> Entry</div><div class="seq-head" data-head="2"><span>B</span> Insertion</div></div>
+            <div class="sequence-command"><span class="seq-overline">Form the command</span><div class="seq-command-step" data-command-step="0">Adjust near target<small>Learned regulator</small></div><div class="seq-command-step" data-command-step="1">Enforce phase rules<small>Masks + bounds</small></div><div class="seq-command-step" data-command-step="2">Produce needle motion<small>Physical decoder</small></div></div>
+          </div>
+          <p class="sequence-policy-note">One policy. Only the current phase head supplies the action.</p>
+        </div>
+        <div class="sequence-view sequence-repair-view" data-view="repair" hidden>
+          <div class="sequence-repair-diagram">
+            <div class="sequence-examples"><div class="seq-example" data-example="0"><span>Failed alignment states</span><strong>Expert corrections</strong></div><div class="seq-example" data-example="1"><span>Successful states</span><strong>Retain earlier predictions</strong></div></div>
+            <svg class="sequence-repair-links" viewBox="0 0 100 150" aria-hidden="true"><path class="seq-repair-guide" d="M2 30C65 30 35 75 97 75M2 120C65 120 35 75 97 75"/><path class="seq-repair-path" data-repair-path="0" d="M2 30C65 30 35 75 97 75"/><path class="seq-repair-path" data-repair-path="1" d="M2 120C65 120 35 75 97 75"/></svg>
+            <div class="seq-repair-head"><span class="seq-overline">Update only</span><div class="seq-head" data-repair-head><span>A</span> Alignment</div><span id="sequence-update-label">Use both kinds of examples</span></div>
+          </div>
+          <div class="sequence-frozen"><span>Kept frozen</span><span>Encoder</span><span>Entry head</span><span>Insertion head</span><span>Regulator</span></div>
+        </div>
+      </div>
+      <p class="sequence-caption" id="sequence-caption">Before entry, position and orientation corrections are allowed within bounds.</p>
+    </div>
+    <div class="sequence-transport"><button type="button" id="sequence-play" aria-label="Pause method animation">Pause</button><button type="button" id="sequence-replay" aria-label="Replay method animation">Replay ↺</button><label class="visually-hidden" for="sequence-timeline">Method animation progress</label><input id="sequence-timeline" aria-label="Method animation progress" type="range" min="0" max="42" step="0.1" value="0"><span id="sequence-time">0:00 / 0:42</span></div>
+    <p class="sequence-help">Plays automatically · select a chapter or phase to jump ahead</p>
+    <noscript><p class="sequence-help">Alignment allows bounded position and orientation corrections. Entry permits axial feed only; insertion caps advancement by remaining depth.</p></noscript>
+  </div>
+  <div class="method-equations" role="group" aria-label="Equations for the current animation chapter">
+    <div class="method-equation-panel" data-equation="rules">
+      <div class="method-equation-row">
+        <div class="method-equation"><span>Mask + bound</span><math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="a equals the phase mask times the model proposal clipped to the phase bounds"><mi>a</mi><mo>=</mo><msub><mi>μ</mi><mi>φ</mi></msub><mo>⊙</mo><mi mathvariant="normal">clip</mi><mo>(</mo><mi>b</mi><mo>,</mo><msub><mi>ℓ</mi><mi>φ</mi></msub><mo>,</mo><msub><mi>u</mi><mi>φ</mi></msub><mo>)</mo></math></div>
+        <div class="method-equation"><span>Decode</span><math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="physical command s equals the phase decoder applied to observation o and admissible action a"><mi>s</mi><mo>=</mo><msub><mi>D</mi><mi>φ</mi></msub><mo>(</mo><mi>o</mi><mo>,</mo><mi>a</mi><mo>)</mo></math></div>
+      </div>
+      <p class="method-equation-key"><span><i>b</i> unchanged model proposal</span><span><i>μ</i> active channels</span><span><i>ℓ, u</i> action bounds</span></p>
+      <p class="method-equation-note">φ is the current phase. Masks and bounds also depend on the observation o.</p>
+    </div>
+    <div class="method-equation-panel" data-equation="policy" hidden>
+      <div class="method-equation-row">
+        <div class="method-equation"><span>Phase-selected proposal</span><math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="b equals the current phase head applied to the shared representation z"><mi>b</mi><mo>=</mo><msub><mi>h</mi><mi>φ</mi></msub><mo>(</mo><mi>z</mi><mo>)</mo></math></div>
+        <div class="method-equation"><span>Regulate → constrain → decode</span><math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="proposal b passes through regulator R to regulated proposal b bar, contract C to admissible action a, then decoder D to physical command s"><mi>b</mi><mover><mo>⟶</mo><msub><mi>R</mi><mi>φ</mi></msub></mover><mover accent="true"><mi>b</mi><mo>¯</mo></mover><mover><mo>⟶</mo><msub><mi>C</mi><mi>φ</mi></msub></mover><mi>a</mi><mover><mo>⟶</mo><msub><mi>D</mi><mi>φ</mi></msub></mover><mi>s</mi></math></div>
+      </div>
+      <p class="method-equation-key"><span><i>z</i> shared representation</span><span><i>a</i> admissible action</span><span><i>s</i> physical command</span></p>
+      <p class="method-equation-note">The regulator adjusts the proposal; the contract enforces the phase constraints.</p>
+    </div>
+    <div class="method-equation-panel" data-equation="repair" hidden>
+      <div class="method-equation-row single-equation">
+        <div class="method-equation"><span>Optimize only the alignment head</span><math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="theta A star minimizes correction loss plus lambda ret times retention loss, optimizing theta A only"><msubsup><mi>θ</mi><mi mathvariant="normal">A</mi><mo>*</mo></msubsup><mo>=</mo><munder><mo movablelimits="false">arg min</mo><msub><mi>θ</mi><mi mathvariant="normal">A</mi></msub></munder><mo>(</mo><msub><mi>ℒ</mi><mtext>corr</mtext></msub><mo>+</mo><msub><mi>λ</mi><mtext>ret</mtext></msub><msub><mi>ℒ</mi><mtext>ret</mtext></msub><mo>)</mo></math></div>
+      </div>
+      <p class="method-equation-key"><span><i>ℒ</i><sub>corr</sub> expert corrections</span><span><i>ℒ</i><sub>ret</sub> successful-state retention</span></p>
+      <p class="method-equation-note">λ<sub>ret</sub> ≥ 0 balances retention. All other learned modules stay frozen.</p>
+    </div>
+  </div>
+
+ </section>
+
+ <section class="research-section" id="design-evidence" aria-labelledby="evidence-title">
+  <div class="section-heading"><p class="section-label">03 / The evidence</p><h2 id="evidence-title">Completion and precision, measured separately.</h2><p class="section-intro">Completing the procedure and reaching a precise endpoint answer different questions. Both are shown here.</p></div>
+  <div class="study">
+   <div class="study-heading"><h3>Full-task comparison</h3><p class="protocol">E1–E3 · 500 tasks per block · one frozen checkpoint per method</p></div>
+   <p class="finding">The structured policy reaches <strong>94.27% procedural completion</strong>. At the 35 μm endpoint threshold, its 64.40% success rate is close to the contract/decoder baseline’s 64.80%.</p>
+   <figure class="plot"><a class="zoomable" href="../../assets/figures/robot-performance.svg" data-zoom-title="Full-task comparison" aria-label="Enlarge full-task comparison chart"><picture><source media="(max-width: 760px)" srcset="../../assets/figures/robot-performance-mobile.svg"><img src="../../assets/figures/robot-performance.svg" loading="lazy" decoding="async" alt="Comparison of six methods. Ours achieves Flow 94.27 ± 0.64% and S@35 64.40 ± 2.43%; Correction IL plus contract/decoder achieves Flow 90.47 ± 0.81% and S@35 64.80 ± 1.78%. All six methods and error bars are shown."></picture></a><figcaption class="figure-caption">Mean ± sample SD across three geometry blocks. Select the figure to enlarge.</figcaption></figure>
+   <details class="disclosure"><summary>Full comparison table &amp; metric definitions</summary><div class="disclosure-body"><dl class="metric-definitions"><div><dt>Flow</dt><dd>Procedural completion, reported separately from endpoint precision.</dd></div><div><dt>S@35 / S@50 / S@100</dt><dd>Success evaluated at 35, 50 and 100 μm endpoint thresholds.</dd></div><div><dt>Hard violations</dt><dd>Observed task-constraint violations in simulation.</dd></div></dl><a class="zoomable table-image" href="../../assets/figures/robot-full-task-table.png" data-zoom-title="Full-task comparison — all metrics" aria-label="Enlarge: Full-task comparison — all metrics"><img src="../../assets/figures/robot-full-task-table.png" width="2300" height="540" loading="lazy" decoding="async" alt="Full-task comparison table with six methods, phase reach, Flow, endpoint success at three thresholds and hard violations. Ours: Flow 94.27 ± 0.64%, S@35 64.40 ± 2.43%, hard violations 0%."></a><p class="protocol-note">All values are percentages: mean ± sample SD across three held-out geometry blocks, rather than across independent training seeds. Select the table to enlarge.</p></div></details>
+  </div>
+  <div class="study">
+   <div class="study-heading"><h3>What does the structure contribute?</h3><p class="protocol">T3E1–T3E3 · separate matched blocks · 500 tasks per block</p></div>
+   <p class="finding">Removing the combined phase-conditioned action structure reduces Flow from <strong>99.73% to 24.40%</strong> and S@35 from <strong>75.00% to 0%</strong> in the matched ablation study.</p>
+   <figure class="plot"><a class="zoomable" href="../../assets/figures/robot-ablations.svg" data-zoom-title="Structural ablations" aria-label="Enlarge structural ablation chart"><picture><source media="(max-width: 760px)" srcset="../../assets/figures/robot-ablations-mobile.svg"><img src="../../assets/figures/robot-ablations.svg" loading="lazy" decoding="async" alt="Matched ablation comparison. Full: Flow 99.73%, S@35 75.00%. Without derived state: 98.67%, 76.80%. Without phase-conditioned heads: 97.87%, 71.47%. Without phase-conditioned action structure: 24.40%, 0%. Without closed-loop correction: 66.33%, 47.93%. Error bars show sample SD across blocks."></picture></a><figcaption class="figure-caption">Mean ± sample SD across three geometry blocks. Select the figure to enlarge.</figcaption></figure>
+   <details class="disclosure"><summary>Full ablation table &amp; evaluation setup</summary><div class="disclosure-body"><a class="zoomable table-image" href="../../assets/figures/robot-structural-ablation-table.png" data-zoom-title="Structural ablations — all metrics" aria-label="Enlarge: Structural ablations — all metrics"><img src="../../assets/figures/robot-structural-ablation-table.png" width="2300" height="370" loading="lazy" decoding="async" alt="The full model is compared with removing derived state, phase-conditioned heads, executable action structure and closed-loop correction, across seven metrics."></a><p class="protocol-note">These configurations use a separate matched evaluation family with one pre-specified training seed. The full model’s 99.73% Flow here is distinct from the primary comparison’s 94.27%.</p><p>The action-structure ablation removes the combined phase-conditioned action structure. It is not an isolated test of a single clipping rule.</p></div></details>
+  </div>
+  <details class="disclosure"><summary>Inspect the action-trace checks</summary><div class="disclosure-body"><dl class="audit-grid"><div><dt>96,350</dt><dd>Policy steps reconstructed with zero action error; no illegal phase transitions.</dd></div><div><dt>1,996</dt><dd>Paired rule-intervention checks passed.</dd></div><div><dt>3,139</dt><dd>Null-control checks passed.</dd></div></dl><p class="audit-note">Trace checks cover 500 simulated episodes. These counts refer to different units and are reported separately.</p></div></details>
+ </section>
+
+ <section class="research-section" id="robot-realisation" aria-labelledby="realisation-title">
+  <div class="section-heading"><p class="section-label">04 / Across robots</p><h2 id="realisation-title">Shared task-space motion. Different robot models.</h2><p class="section-intro">Keep the policy and task-space commands shared; use each robot’s coordinate frames, kinematics and joint limits to realise the motion.</p></div>
+  <div class="robot-layout"><figure class="platform-figure"><a class="zoomable " href="../../assets/images/robot-platforms.png" data-zoom-title="Task-space motion on representative robot models" aria-label="Enlarge: Task-space motion on representative robot models"><img src="../../assets/images/robot-platforms.png" width="878" height="571" loading="lazy" decoding="async" alt="Representative task-space needle sequences on the Current RCM, Franka Panda and Mico Arm models."></a><figcaption class="figure-caption">Representative visualisations from the compatibility study.</figcaption></figure><div class="robot-copy"><h3>Five kinematic models</h3><ul class="robot-list"><li>Current RCM</li><li>Franka Panda</li><li>KUKA LBR iiwa</li><li>UR5</li><li>Kinova Mico</li></ul><p style="margin-top:22px">The evaluation identifies limits in start reachability, joint ranges and solver continuity.</p><p class="scope-note">Kinematic replay of fixed, Flow-qualified trajectories. Closed-loop execution on physical robots remains to be validated.</p></div></div>
+  <details class="disclosure"><summary>Cross-robot compatibility results</summary><div class="disclosure-body"><a class="zoomable table-image" href="../../assets/figures/cross-robot-results.png" data-zoom-title="Cross-robot kinematic compatibility" aria-label="Enlarge: Cross-robot kinematic compatibility"><img src="../../assets/figures/cross-robot-results.png" width="2300" height="430" loading="lazy" decoding="async" alt="Compatibility results for Current RCM, Franka Panda, KUKA LBR iiwa, UR5 and Kinova Mico, including start feasibility, replay, overall rates, coverage, errors and kinematic failures. Overall rates are 92.79%, 100%, 99.86%, 100% and 87.48%."></a><p class="protocol-note">Reported rates describe kinematic compatibility of the replayed trajectories, rather than closed-loop task success on physical robots.</p></div></details>
+ </section>
+ <footer class="project-footer"><a class="return-link" href="../../#robot-project" data-home-link>← Back to Selected Work</a><a class="text-link" href="#project-content">Back to top ↑</a></footer>
+</main>
+<dialog class="figure-dialog" id="figure-dialog" aria-labelledby="figure-title">
+ <div class="dialog-header"><h2 id="figure-title">Research figure</h2><div class="dialog-tools"><button type="button" id="figure-size" aria-pressed="false">Actual size</button><a id="figure-original" href="../../assets/figures/phase-conditioned-method.svg" target="_blank" rel="noopener">Open original ↗</a><button type="button" id="figure-close" aria-label="Close figure">Close ×</button></div></div>
+ <div class="dialog-body"><img id="dialog-image" alt="Enlarged research figure"></div>
+</dialog>
+<script src="../../assets/scripts/robotic-microsurgery.js" defer></script><script id="method-sequence-script" src="../../assets/scripts/robotic-microsurgery-method-sequence-script.js" defer></script><script id="task-story-v62-script" src="../../assets/scripts/robotic-microsurgery-task-story-v62-script.js" defer></script></body></html>

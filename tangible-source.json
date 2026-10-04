@@ -1,0 +1,24 @@
+{
+  "repository": "https://github.com/jiaxiyou-ctrl/tangible-views",
+  "commit": "30b0cd4cd4ea13ea37020e731f8b9850610fc85c",
+  "working_tree_changes": false,
+  "files": [
+    "index.html",
+    "project-notes.html",
+    "studio.css",
+    "validation-report.json",
+    "docs/UI-CHECKS.md",
+    "docs/ARCHITECTURE.md",
+    "docs/PRINCIPLES.zh-CN.md",
+    "src/app.mjs",
+    "src/core.mjs",
+    "src/draw.mjs",
+    "src/feedback.mjs",
+    "src/i18n.mjs",
+    "src/icons.mjs",
+    "src/notes.mjs",
+    "src/scene.mjs",
+    "src/session-mode.mjs",
+    "src/workspace.mjs"
+  ]
+}

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f3f4f6"><title>立方体搭建 - 三视图练习</title>
+  <link rel="stylesheet" href="studio.css">
+<link rel="canonical" href="https://jiaxiyou-ctrl.github.io/projects/tangible-views/">
+</head>
+<body>
+<header class="app-header">
+  <button class="brand" data-tab="workspace" aria-label="返回搭建练习"><span class="brand-mark" data-icon="cube"></span><span>立方体搭建</span></button>
+  <span class="app-subtitle">三视图练习</span><span id="mode-label" class="mode-label" hidden>示例讲解</span>
+  <div class="header-actions"><a class="header-button portfolio-return" href="../../#tangible-project" data-no-translate>Portfolio</a><button id="language-switch" class="header-button language-switch" data-no-translate aria-label="Switch to English">English</button><a id="mode-switch" class="header-button mode-switch" href="?mode=demo">示例讲解</a><span id="save-status" class="save-status">进度已保存</span><button id="help-button" class="header-button"><span data-icon="help"></span>使用帮助</button><button id="about-button" class="header-button">关于</button></div>
+</header>
+<main class="training-main">
+<div class="training-shell">
+<aside class="exercise-sidebar" aria-label="分级练习题">
+  <div class="exercise-heading"><h2>练习题</h2><span id="course-progress">已完成 0 / 8</span></div>
+  <progress id="course-progress-bar" value="0" max="8" aria-label="练习完成进度"></progress>
+  <nav id="exercise-list" aria-label="按难度选择练习"></nav>
+</aside>
+<section id="workspace" class="page">
+  <div class="lesson-heading"><div><span id="activity-index" class="exercise-index">1 / 8</span><h1 id="task-title">单排方块</h1><p id="task-description">根据右侧的三视图，在底板上搭出相符的立体图形。</p></div><span id="task-kind" class="lesson-meta">唯一解</span></div>
+  <div class="studio-layout">
+    <section class="workbench" aria-label="搭建工作区">
+      <div class="workbench-toolbar">
+        <div class="tool-group" role="group" aria-label="搭建工具">
+          <button data-tool="add" title="添加方块（快捷键 1）" aria-pressed="true"><span data-icon="add"></span>添加<kbd>1</kbd></button>
+          <button data-tool="remove" title="移除最上层方块（快捷键 2）" aria-pressed="false"><span data-icon="erase"></span>移除<kbd>2</kbd></button>
+          <button data-tool="orbit" title="旋转视角（快捷键 3）" aria-pressed="false"><span data-icon="orbit"></span>旋转<kbd>3</kbd></button>
+        </div>
+        <div class="history-tools"><button id="undo" class="icon-button" aria-label="撤销" title="撤销（Ctrl / ⌘ Z）" data-icon="undo" disabled></button><button id="redo" class="icon-button" aria-label="重做" title="重做（Ctrl / ⌘ Shift Z）" data-icon="redo" disabled></button><span class="tool-divider"></span><button id="clear-board" class="icon-button" aria-label="清空底板" title="清空底板，可撤销" data-icon="trash"></button></div>
+      </div>
+      <div class="scene-wrap">
+        <div class="scene-meta"><span id="cube-count">共 0 个方块</span><span id="camera-label">立体视角</span></div>
+        <div id="model" class="model"></div><div id="placement-tip" class="placement-tip" hidden></div>
+        <div id="empty-message" class="empty-message">点击方格，添加第一个方块</div>
+        <div class="scene-bottom"><span id="scene-instruction">点击添加，按住拖动可旋转</span><div class="view-controls" aria-label="视角与缩放"><button class="icon-button" id="home-view" title="恢复默认视角" aria-label="恢复默认视角" data-icon="home"></button><span class="tool-divider"></span><button class="icon-button" id="zoom-out" title="缩小" aria-label="缩小" data-icon="minus"></button><span id="zoom-label">100%</span><button class="icon-button" id="zoom-in" title="放大" aria-label="放大" data-icon="plus"></button></div></div>
+      </div>
+      <div class="workbench-footer">
+        <div class="view-presets" role="group" aria-label="观察方向"><span class="control-label">视角</span><button data-view="iso" class="active">立体</button><button data-view="top">俯视</button><button data-view="front">正视</button><button data-view="right">右视</button></div>
+        <div class="footer-actions"><button id="xray-toggle" class="xray-toggle" aria-pressed="false" title="透视编辑被遮挡的位置">透视编辑</button>
+          <details class="menu board-menu"><summary><span data-icon="grid"></span>按格编辑<span data-icon="chevron"></span></summary><div class="menu-panel board-panel"><div class="popover-heading"><strong>选择方格</strong><span>后排</span></div><div id="height-grid" class="height-grid"></div><span class="board-front">前排</span><div class="stack-control"><span>位置 <strong id="selected-label">A1</strong></span><div><button id="minus" class="icon-button" aria-label="选中方格减少一层" data-icon="minus"></button><strong id="selected-height">0</strong><span>层</span><button id="plus" class="icon-button" aria-label="选中方格增加一层" data-icon="plus"></button></div></div></div></details>
+          <details class="menu example-menu"><summary>载入示例<span data-icon="chevron"></span></summary><div class="menu-panel"><label for="sample">选择示例</label><select id="sample"></select><button id="load-sample" class="button secondary">载入</button><small>载入后可撤销，恢复原来的搭建。</small></div></details>
+        </div>
+      </div>
+    </section>
+    <aside class="comparison-panel" aria-label="题目与当前三视图对照">
+      <div class="comparison-context"><div class="comparison-heading"><h2>三视图对照</h2><span id="view-score">相符 0 / 3</span></div>
+      <div class="task-goal"><span id="task-rule">提交一种与题目相符的搭法。</span><button id="why-multiple" type="button" hidden>为什么有多解？</button></div><div class="comparison-columns"><span>观察方向</span><span>题目</span><span>当前搭建</span></div></div><div id="comparison-rows"></div>
+      <div id="feedback-panel" class="feedback-panel"><span id="feedback-icon" class="feedback-icon"></span><div id="feedback" role="status" aria-live="polite"></div></div>
+      <div class="feedback-actions"><button id="hint" class="button secondary"><span data-icon="help"></span><span id="hint-label">提示</span></button><button id="check" class="button primary"><span data-icon="check"></span>提交答案</button></div><div id="hint-legend" class="hint-legend" hidden><span><b>＋</b> 缺少</span><span><b>−</b> 多出</span></div>
+      <section id="reflection" class="reflection" aria-label="提交后想一想" hidden><strong>想一想</strong><p id="reflection-question"></p></section>
+      <div id="exercise-result" class="exercise-result"><span id="task-progress"></span><button id="next-task" type="button" hidden>下一题 →</button></div><details class="saved-builds"><summary class="saved-heading"><span>提交记录</span><span id="attempts">0</span></summary><div id="attempt-history" class="attempt-history"></div></details>
+    </aside>
+  </div>
+</section>
+</div>
+</main>
+<div id="build-notice" class="toast" role="status" aria-live="polite" hidden></div>
+<dialog id="help-dialog">
+  <div class="dialog-heading"><h2>使用帮助</h2><button id="close-help" class="icon-button" aria-label="关闭帮助" data-icon="close"></button></div>
+  <p>观察题目的俯视图、正视图和右视图，在底板上搭出相符的立体图形。</p>
+  <div class="help-step"><span data-icon="add"></span><div><strong>添加与移除</strong><p>将鼠标移到方格或方块上，半透明方块表示下一次放置的位置。左键点击添加一块，右键点击移除顶层。也可按住 Shift 点击，或使用“移除”工具；键盘聚焦方块后按 Delete 移除。所有修改均可撤销。</p></div></div>
+  <div class="help-step"><span data-icon="orbit"></span><div><strong>旋转与观察</strong><p>按住鼠标拖动即可旋转，滚轮控制缩放。画布下方可切换立体、俯视、正视和右视。被遮住时打开“透视编辑”，模型淡化，点选底板上对应的格子即可增减那一堆。也可使用“按格编辑”。</p></div></div>
+  <div class="help-step"><span data-icon="undo"></span><div><strong>提交与进度</strong><p>完成搭建后点击“提交答案”。普通题提交一种正确搭法即可完成；“寻找两种搭法”需要提交两种不同的正确结构。提交记录可以重新载入，各题分别保存进度。清空底板不会清除完成记录。</p></div></div>
+  <div class="help-step"><span data-icon="help"></span><div><strong>按需获取提示</strong><p>点击“提示”，当前三视图用黄色标出差异：加号表示缺少，减号表示多出。修改后标记同步更新；答对并提交后，用“想一想”解释自己的判断。</p></div></div><div class="help-step"><span data-icon="help"></span><div><strong>示例讲解</strong><p>从右上角进入示例，可以载入并修改参考搭法。示例不计入练习进度，返回练习后继续原来的搭建。</p></div></div><div class="shortcut-guide"><span><kbd>1</kbd> 添加</span><span><kbd>2</kbd> 移除</span><span><kbd>3</kbd> 旋转</span><span><kbd>Ctrl / ⌘ Z</kbd> 撤销</span><span><kbd>Ctrl / ⌘ Shift Z</kbd> 重做</span></div>
+  <p class="dialog-note">进度保存在当前浏览器中，刷新后可继续。更换设备或清除浏览器数据后不会保留。</p>
+</dialog>
+<dialog id="about-dialog"><div class="dialog-heading"><h2>关于本工具</h2><button id="close-about" class="icon-button" aria-label="关闭关于窗口" data-icon="close"></button></div><p>立方体搭建 · 三视图练习</p><p class="about-version">版本 0.9.0</p><p>适用于方块组合体的观察与搭建练习。当前支持在 3 × 3 底板上连续堆叠，每格最多 3 层。</p><p class="dialog-note">根据目标三视图搭建、比较与调整，练习空间推理。<a href="project-notes.html" target="_blank" rel="noopener">项目资料</a></p></dialog>
+<dialog id="ambiguity-dialog" class="ambiguity-dialog">
+  <div class="dialog-heading"><h2>为什么相同三视图会有不同搭法？</h2><button id="close-ambiguity" class="icon-button" aria-label="关闭多解说明" data-icon="close"></button></div>
+  <p>这里的三视图记录的是从三个方向看到的方格轮廓，不能显示所有被挡住的高度。下面两种搭法各用 8 个方块，四个位置的层数不同，三视图却完全相同。</p>
+  <div id="ambiguity-examples" class="ambiguity-examples"></div>
+  <div class="shared-views"><h3>两种搭法共有的三视图</h3><div id="ambiguity-views"></div></div>
+  <p class="dialog-note">有些题的三个方向约束足够强，只有一种正确搭法；有些题仍留下多种可能。本工具会标明“唯一解”或“多解题”，只有专门的多解练习要求提交两种搭法。</p>
+</dialog>
+<script type="module" src="src/app.mjs"></script>
+</body></html>

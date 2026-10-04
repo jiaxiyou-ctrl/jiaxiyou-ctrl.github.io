@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jiaxi You</title>
+
+
+<link rel="stylesheet" href="assets/styles/home.css">
+<link rel="canonical" href="https://jiaxiyou-ctrl.github.io/">
+<meta name="description" content="Jiaxi You — research in robot learning, physical AI and reliable evidence use. Selected work, experience and education.">
+</head>
+<body>
+<header class="masthead"><div class="wrap"><div class="masthead-inner"><a class="home-name" href="#top">Jiaxi You</a><nav class="main-nav" aria-label="Main navigation"><a href="#research">About</a><a href="#work">Selected Work</a><a href="#experience">Experience</a><a href="#education">Education</a></nav></div></div></header>
+<main class="wrap site-layout" id="top">
+ <section class="profile-intro" id="research" aria-labelledby="profile-name">
+  <div class="intro-copy">
+   <h1 id="profile-name">Jiaxi You</h1>
+   <p class="intro-tagline">Learning to act beyond the familiar.</p>
+   <p class="intro-statement">My research interests lie in robot foundation models. I explore how robots can build on experience to learn transferable skills and adapt to new tasks and environments.</p>
+   <p class="intro-background">At the <strong>University of Bristol</strong>, I have worked on robotic microsurgery with the <strong>Weiru Liu Research Group</strong> and on reliable, evidence-grounded language systems in collaboration with <strong>IBM</strong>.</p>
+   <div class="intro-actions" aria-label="Contact and profile links">
+    <a class="intro-email" href="mailto:youjiaxi607@outlook.com" aria-label="Email Jiaxi You">Email <span aria-hidden="true">↗</span></a>
+    <button id="cv-open" aria-label="Open CV summary" aria-haspopup="dialog" aria-controls="cv-dialog">CV <span aria-hidden="true">↗</span></button>
+    <a href="https://www.linkedin.com/in/jiaxi-you/" target="_blank" rel="noopener noreferrer" aria-label="Jiaxi You on LinkedIn (opens in a new tab)">LinkedIn <span aria-hidden="true">↗</span></a>
+    <span class="intro-location">London, UK</span>
+   </div>
+  </div>
+  <figure class="portrait"><div class="portrait-crop"><img src="assets/images/jiaxi-you.jpg" width="1080" height="1620" alt="Portrait of Jiaxi You" decoding="async" fetchpriority="high"></div></figure>
+ </section>
+ <div class="reading-column">
+
+ <section class="portfolio-section selected-work" id="work" aria-labelledby="work-title">
+  <div class="section-top"><div class="section-title"><h2 id="work-title">Selected Work</h2></div></div>
+  <section class="work-group" id="research-projects" aria-labelledby="research-projects-title">
+  <h3 id="research-projects-title">Research Projects</h3>
+  <article class="project project-featured" id="robot-project" aria-labelledby="robot-project-title">
+   <div class="featured-overview">
+   <div class="project-media">
+    <figure class="project-media-item">
+     <button type="button" class="media-frame media-expand-control" data-media-name="robot simulation" aria-expanded="false" aria-label="Enlarge robot simulation within this project">
+      <video id="robot-demo" width="1280" height="720" muted loop playsinline disablepictureinpicture disableremoteplayback tabindex="-1" preload="auto" poster="assets/images/retinal-injection-poster.png" aria-label="Three-second injection simulation showing the robot and a close-up of the needle approaching and entering the eye model">
+       <source src="assets/videos/retinal-injection.mp4" type="video/mp4">
+       Your browser does not support embedded video.
+      </video>
+     </button>
+     <figcaption>Retinal injection · simulation</figcaption>
+    </figure>
+   </div>
+   <div class="featured-intro">
+    <div class="project-overview-content">
+     <div class="project-meta"><span>Robot learning</span><span>AAAI · Passed Phase 1 Review</span></div>
+     <h4 class="project-title" id="robot-project-title">Learning Needle Control for Retinal Injection</h4>
+     <p class="project-context">University of Bristol · Student Researcher</p>
+     <div class="overview-description">
+      <p class="project-description">Learning phase-aware needle control for retinal injection to meet micrometer-scale precision and safety requirements.</p>
+     </div>
+     <p class="project-note"><strong>Simulation result:</strong> 94.3% procedural completion (Flow).</p>
+    </div>
+   <a class="featured-toggle project-page-link" href="projects/robotic-microsurgery/">
+    <span>Project details</span><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+   </a>
+   </div>
+   </div>
+  </article>
+  <article class="project project-featured" id="rag-project" aria-labelledby="rag-project-title">
+   <div class="featured-overview">
+   <div class="project-media">
+    <figure class="project-media-item">
+    <button type="button" class="rag-diagram media-expand-control" data-media-name="Reliable Evidence Flow diagram" aria-expanded="false" aria-label="Enlarge Reliable Evidence Flow diagram within this project">
+     <span class="rag-diagram-crop"><img src="assets/images/rag-evidence-flow.png" width="1756" height="934" loading="lazy" decoding="async" alt="Reliable Evidence Flow across Retriever, Selector and Generator: preserve required evidence, reduce misleading context, and verify claims. Evidence identifiers and source provenance connect retrieval to citations and explicit unverified labels in the answer."></span>
+    </button>
+    </figure>
+   </div>
+   <div class="featured-intro">
+    <div class="project-overview-content">
+     <div class="project-meta"><span>Reliable AI</span><span>Ongoing research</span></div>
+     <h4 class="project-title" id="rag-project-title">Reliable Evidence Flow for Enterprise RAG</h4>
+     <p class="project-context">University of Bristol · In collaboration with IBM</p>
+     <div class="overview-description">
+      <p class="project-description">Investigating how evidence selection affects answer reliability in RAG, balancing the removal of misleading context with the preservation of essential information.</p>
+     </div>
+     <p class="project-note">Links generated claims to their source evidence and helps locate failures across retrieval, selection and verification.</p>
+    </div>
+   <a class="featured-toggle project-page-link" href="projects/reliable-evidence-flow/">
+    <span>Project details</span><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+   </a>
+   </div>
+   </div>
+  </article>
+  </section>
+  <section class="work-group" id="applied-projects" aria-labelledby="applied-projects-title">
+  <h3 id="applied-projects-title">Early Explorations</h3>
+  <article class="project project-featured" id="tangible-project" aria-labelledby="tangible-project-title">
+   <div class="featured-overview">
+    <div class="project-media">
+     <figure class="project-media-item">
+      <button type="button" class="tangible-preview media-expand-control" data-media-name="Tangible Views workspace" aria-expanded="false" aria-label="Enlarge Tangible Views workspace within this project">
+       <span class="tangible-preview-crop"><img src="assets/images/tangible-views-overview.png" width="1440" height="900" loading="lazy" decoding="async" alt="Tangible Views: a six-cube structure beside target and current top, front and right projections. Yellow markers identify missing cells in the front and right views."></span>
+      </button>
+     </figure>
+    </div>
+    <div class="featured-intro">
+     <div class="project-overview-content">
+      <div class="project-meta"><span>Interactive learning</span></div>
+      <h4 class="project-title" id="tangible-project-title">Tangible Views</h4>
+      <div class="overview-description">
+       <p class="project-description">An interactive learning environment for exploring 3D geometry and developing spatial reasoning through hands-on construction.</p>
+      </div>
+     </div>
+     <a class="featured-toggle project-page-link" href="projects/tangible-views/?mode=demo&amp;lang=en" target="_blank" rel="noopener" aria-label="Try Tangible Views demo (opens in a new tab)">
+      <span>Try demo</span><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+     </a>
+    </div>
+   </div>
+  </article>
+  </section>
+ </section>
+
+ <section class="portfolio-section" id="experience" aria-labelledby="experience-title">
+  <div class="section-top"><div class="section-title"><h2 id="experience-title">Experience</h2></div></div>
+  <div class="background-group" aria-labelledby="research-experience-title">
+   <h3 id="research-experience-title">Research</h3>
+   <div class="experience-list">
+    <div class="experience-item"><span>Mar–Jul 2026</span><div><h4>Student Researcher</h4><p>University of Bristol · Weiru Liu Research Group</p></div></div>
+    <div class="experience-item"><span>Jun 2026–Present</span><div><h4>Researcher · Reliable AI</h4><p>University of Bristol · In collaboration with IBM</p></div></div>
+   </div>
+  </div>
+  <div class="background-group" aria-labelledby="internships-title">
+   <h3 id="internships-title">Internships</h3>
+   <div class="experience-list">
+    <div class="experience-item"><span>Jan–Sep 2024</span><div><h4>Software Development Intern</h4><p>iFLYTEK</p></div></div>
+    <div class="experience-item"><span>Mar–Dec 2023</span><div><h4>IT Support Technician</h4><p>Qilu Experimental School Information Service Centre</p></div></div>
+   </div>
+  </div>
+ </section>
+
+ <section class="portfolio-section" id="education" aria-labelledby="education-title">
+  <div class="section-top"><div class="section-title"><h2 id="education-title">Education &amp; Honors</h2></div></div>
+  <div class="background-group" aria-labelledby="education-group-title">
+   <h3 id="education-group-title">Education</h3>
+   <div class="experience-list">
+    <div class="experience-item"><span>2025–2026</span><div><h4>MSc Computer Science</h4><p>University of Bristol</p></div></div>
+    <div class="experience-item"><span>2020–2024</span><div><h4>BSc Educational Technology</h4><p>Shandong Normal University</p></div></div>
+   </div>
+  </div>
+  <div class="background-group" aria-labelledby="honors-title">
+   <h3 id="honors-title">Honors</h3>
+   <div class="experience-list">
+    <div class="experience-item"><span>2024</span><div><h4>Outstanding Undergraduate Thesis Award</h4><p>Shandong Normal University</p></div></div>
+    <div class="experience-item"><span>2022</span><div><h4>National Second Prize</h4><p>National College Student Computer Design Competition</p></div></div>
+    <div class="experience-item"><span>2021</span><div><h4>National First Prize</h4><p>National College Student Computer Design Competition</p></div></div>
+   </div>
+  </div>
+ </section>
+
+ <footer class="footer"><a href="#top">Back to top ↑</a></footer>
+</div>
+</main>
+<dialog class="dialog" id="cv-dialog" aria-labelledby="cv-title"><div class="dialog-top"><span>Curriculum vitae</span><button data-close="cv-dialog" aria-label="Close profile summary">Close ×</button></div><h2 id="cv-title">Jiaxi You</h2><div class="cv-grid"><div><h3>Research interests</h3><p>Physical AI · Robot Learning · Foundation Models</p></div><div><h3>Research experience</h3><p>Student Researcher, University of Bristol · Mar–Jul 2026 — auditable microsurgical control.</p><p>Researcher · Reliable AI · Jun 2026–Present<br>University of Bristol · In collaboration with IBM</p></div><div><h3>Education</h3><p>MSc Computer Science, University of Bristol, 2025–2026.</p><p>BSc Educational Technology, Shandong Normal University, 2020–2024.</p></div><div><h3>Technical background</h3><p>Python · PyTorch · NumPy · MuJoCo · CoppeliaSim · Gymnasium · Git · Linux</p></div></div></dialog>
+<script src="assets/scripts/home.js" defer></script>
+<script id="inline-image-expansion" src="assets/scripts/home-inline-image-expansion.js" defer></script>
+<script id="demo-playback" src="assets/scripts/home-demo-playback.js" defer></script>
+
+</body>
+</html>
