@@ -242,8 +242,6 @@ html:has(.media-expand-control){overflow-anchor:none}
 .profile-intro h1{font:58px/1.15 var(--serif);letter-spacing:-.035em;margin:0 0 12px;color:var(--ink)}
 .intro-tagline{font:20px/1.5 var(--serif);letter-spacing:-.015em;color:var(--muted);margin-bottom:25px}
 .intro-statement{font:25px/1.55 var(--serif);letter-spacing:-.015em;color:var(--ink);max-width:740px}
-.intro-background{font:13px/1.95 var(--sans);color:var(--muted);margin-top:21px;max-width:710px}
-.intro-background strong{font-weight:500;color:var(--ink)}
 .intro-actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:23px}
 .intro-actions a,.intro-actions button{display:inline-flex;align-items:center;gap:12px;min-height:32px;padding:3px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;font:11px/1.5 var(--sans);color:var(--accent);transition:color .16s,border-color .16s}
 .intro-actions a:hover,.intro-actions button:hover{color:var(--ink);border-bottom-color:var(--accent)}
@@ -253,7 +251,7 @@ html:has(.media-expand-control){overflow-anchor:none}
 .profile-intro .portrait-crop img{width:207.692308%;height:auto;left:-81.730769%;top:-77.884615%}
 .reading-column{width:100%;max-width:none}
 @media(max-width:1050px){.profile-intro{grid-template-columns:minmax(0,1fr) 195px;gap:48px;padding:43px 0 48px}.profile-intro .portrait{width:195px}.profile-intro h1{font-size:52px}.intro-statement{font-size:23px}}
-@media(max-width:700px){.profile-intro{grid-template-columns:minmax(0,1fr);gap:28px;padding:32px 0 38px}.profile-intro h1{font-size:46px}.intro-statement{font-size:22px}.intro-background{font-size:13px}.profile-intro .portrait{width:158px;justify-self:start;margin:0}.intro-tagline{font-size:19px;margin-bottom:22px}.intro-location{flex-basis:100%;margin:0}.masthead-inner{align-items:center;gap:18px}.main-nav{font-size:10px;gap:8px 14px}.home-name{font-size:20px;white-space:nowrap}}
+@media(max-width:700px){.profile-intro{grid-template-columns:minmax(0,1fr);gap:28px;padding:32px 0 38px}.profile-intro h1{font-size:46px}.intro-statement{font-size:22px}.profile-intro .portrait{width:158px;justify-self:start;margin:0}.intro-tagline{font-size:19px;margin-bottom:22px}.intro-location{flex-basis:100%;margin:0}.masthead-inner{align-items:center;gap:18px}.main-nav{font-size:10px;gap:8px 14px}.home-name{font-size:20px;white-space:nowrap}}
 @media(max-width:380px){.profile-intro h1{font-size:42px}.intro-statement{font-size:21px}.main-nav{gap:6px 10px}.home-name{font-size:18px}}
 /* Concise project previews, with research status separate from affiliation. */
 #work .project-meta{font-size:10px;letter-spacing:.065em;line-height:1.6;margin-bottom:8px}
@@ -264,4 +262,3 @@ html:has(.media-expand-control){overflow-anchor:none}
 #work .featured-overview .featured-intro{gap:16px}
 #work .project-media-item figcaption{font-size:10px;line-height:1.6;margin-top:8px;color:var(--muted)}
 @media(max-width:650px){#work .project-meta{font-size:9px}#work .project-context{font-size:11px}#work .project-note{font-size:12px}}
-
