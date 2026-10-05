@@ -45,7 +45,10 @@ html{scroll-padding-top:0}
 
 .task-heading{max-width:865px;margin-bottom:18px}
 .task-purpose{font:20px/1.6 var(--serif);color:var(--ink);max-width:790px;margin-top:18px}
-.task-heading .section-intro{max-width:785px;margin-top:10px}
+.task-challenges{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-top:15px;font-size:11px;line-height:1.7;color:var(--muted)}
+.task-challenges span{margin-right:8px;letter-spacing:.1em;text-transform:uppercase}
+.task-challenges strong{font-weight:500;color:var(--ink)}
+.task-challenges i{font-style:normal;color:#aaa59c}
 .task-heading strong{font-weight:500;color:var(--ink)}
 .retinal-task{--rt-blue:#426c85;--rt-rust:#a96342;width:100%;margin-top:12px}
 .retinal-task-canvas{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.25fr);align-items:center;gap:12px}
@@ -86,7 +89,6 @@ html{scroll-padding-top:0}
 .task-replay:hover{color:var(--ink)}
 .task-takeaway{font:22px/1.5 var(--serif);max-width:850px;margin:20px 0 0;text-wrap:balance}
 @media(max-width:900px) and (min-width:641px){.retinal-task-canvas{grid-template-columns:minmax(0,.7fr) minmax(0,1.25fr);gap:5px}.retinal-task-canvas text{font-size:17px}}
-@media(max-width:640px){.task-purpose{font-size:19px}.task-heading{margin-bottom:4px}.retinal-task-canvas{grid-template-columns:1fr;gap:0}.retinal-overview{width:75%;max-width:310px;margin:auto}.retinal-detail{width:100%}.retinal-detail svg{border:0}.retinal-task-canvas text{font-size:18px}.retinal-task .rt-note{font-size:15px}.retinal-task .rt-tissue-label,.retinal-task .rt-target-label{font-size:16px}.retinal-task .rt-rpe-label{font-size:14px}.rt-zoom-link,.rt-zoom-arrow{display:none}.task-takeaway{font-size:20px;margin-top:16px}.retinal-task-caption{margin-top:5px}.retinal-task .rt-detail-heading{font-size:25px}}
+@media(max-width:640px){.task-purpose{font-size:19px}.task-heading{margin-bottom:4px}.task-challenges{gap:3px 8px}.task-challenges span{flex-basis:100%;margin:0 0 2px}.retinal-task-canvas{grid-template-columns:1fr;gap:0}.retinal-overview{width:75%;max-width:310px;margin:auto}.retinal-detail{width:100%}.retinal-detail svg{border:0}.retinal-task-canvas text{font-size:18px}.retinal-task .rt-note{font-size:15px}.retinal-task .rt-tissue-label,.retinal-task .rt-target-label{font-size:16px}.retinal-task .rt-rpe-label{font-size:14px}.rt-zoom-link,.rt-zoom-arrow{display:none}.task-takeaway{font-size:20px;margin-top:16px}.retinal-task-caption{margin-top:5px}.retinal-task .rt-detail-heading{font-size:25px}}
 @media(prefers-reduced-motion:reduce){.task-replay{transition:none}}
 @media(max-width:640px){.retinal-task-canvas .rt-desktop-detail{display:none}.retinal-task-canvas .rt-mobile-detail{display:block}.retinal-task .rt-mobile-detail text{font-size:16px}.retinal-task .rt-mobile-detail .rt-detail-heading{font:22px var(--serif)}.retinal-task .rt-mobile-detail .rt-tissue-label,.retinal-task .rt-mobile-detail .rt-target-label{font-size:14px}.retinal-task .rt-mobile-detail .rt-rpe-label{font-size:13px}}
-
