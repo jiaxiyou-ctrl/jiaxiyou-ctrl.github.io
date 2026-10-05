@@ -39,9 +39,15 @@
    <div class="retinal-task-canvas">
     <div class="retinal-overview">
      <svg viewBox="0 0 440 420" role="img" aria-labelledby="retinal-overview-title retinal-overview-desc">
-      <title id="retinal-overview-title">From the eye entry point to the subretinal target</title>
-      <desc id="retinal-overview-desc">The needle aligns with a prescribed entry point, then advances along an axis towards the retina at the back of the eye. The highlighted target region is enlarged alongside the eye.</desc>
+      <title id="retinal-overview-title">Needle route and anatomical exclusion regions</title>
+      <desc id="retinal-overview-desc">The planned insertion route runs from the pars-plana entry to the subretinal target while avoiding the lens and the optic exclusion region. The posterior target region is enlarged alongside the eye.</desc>
       <image href="../../assets/images/retinal-task-base.png" x="0" y="14" width="410" height="410"/>
+      <ellipse class="rt-exclusion-zone" cx="205" cy="96" rx="63" ry="34"/>
+      <path class="rt-exclusion-zone rt-optic-zone" d="M205 341 158 257Q205 238 252 257Z"/>
+      <path class="rt-exclusion-leader" d="M143 94H76"/>
+      <text class="rt-exclusion-label" x="24" y="84">Lens clearance<tspan x="24" dy="15">≥ 1.5 mm</tspan></text>
+      <path class="rt-exclusion-leader" d="M169 321 119 350H38"/>
+      <text class="rt-exclusion-label" x="38" y="364">Optic exclusion<tspan x="38" dy="15">≥ 2° outside cone</tspan></text>
       <path class="rt-route" d="M318.46 105.22 269.74 325.60"/>
       <g class="rt-overview-needle" transform="translate(269.74 325.60) rotate(12.47)">
        <path class="rt-needle" d="M-2.8-310H2.8V-12L0 0-2.8-12Z"/>
@@ -50,8 +56,6 @@
       <circle class="rt-entry" cx="318.46" cy="105.22" r="6"/>
       <path class="rt-leader" d="M326 104H365V85"/>
       <text x="366" y="73" text-anchor="middle">Entry</text>
-      <path class="rt-leader" d="M56 245H8V239"/>
-      <text x="-10" y="231">Retina</text>
       <circle class="rt-overview-target" cx="269.74" cy="325.60" r="7"/>
       <circle class="rt-focus-ring" cx="269.74" cy="325.60" r="27"/>
       <path class="rt-zoom-link" d="M298 319 407 242"/>
@@ -59,90 +63,93 @@
      </svg>
     </div>
     <div class="retinal-detail">
-     <svg class="rt-desktop-detail" viewBox="0 0 660 420" role="img" aria-labelledby="retinal-detail-title retinal-detail-desc">
-      <title id="retinal-detail-title">Precise placement with limits on lateral drift and insertion depth</title>
-      <desc id="retinal-detail-desc">An enlarged schematic shows a needle advancing through retinal tissue to a subretinal target above the retinal pigment epithelium. A transverse arrow indicates lateral motion to limit. A dashed continuation beyond the target indicates overshoot to prevent. Layer spacing is exaggerated for visibility; no fluid delivery is shown.</desc>
+     <svg class="rt-desktop-detail" viewBox="0 0 660 440" role="img" aria-labelledby="retinal-detail-title retinal-detail-desc">
+      <title id="retinal-detail-title">Magnified posterior retina showing precision and safety constraints</title>
+      <desc id="retinal-detail-desc">A curved magnified continuation of the posterior retina shows the needle following a locked insertion axis. A blue region marks the 35 micrometer endpoint criterion. Rust annotations mark prohibited lateral motion after entry and overshoot beyond the target.</desc>
       <defs>
        <marker id="rt-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 6 4 1 7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker>
-       <clipPath id="rt-detail-clip"><rect x="16" y="18" width="628" height="387" rx="12"/></clipPath>
+       <clipPath id="rt-detail-clip"><rect x="16" y="18" width="628" height="412" rx="12"/></clipPath>
       </defs>
-      <text class="rt-detail-heading" x="30" y="38">At the target</text>
+      <text class="rt-detail-heading" x="30" y="38">Posterior retina · magnified</text>
       <g clip-path="url(#rt-detail-clip)">
-       <path class="rt-retina" d="M16 271Q179 260 330 282T644 283V320Q496 336 330 319T16 308Z"/>
-       <path class="rt-retina-edge" d="M16 271Q179 260 330 282T644 283M16 308Q179 297 330 319T644 320"/>
-       <path class="rt-rpe" d="M16 345Q179 335 330 357T644 358V374Q490 389 330 373T16 361Z"/>
-       <path class="rt-rpe-edge" d="M16 345Q179 335 330 357T644 358"/>
-       <path class="rt-axis" d="M389 71 330 338"/>
+       <path class="rt-retina" d="M16 220C150 270 250 365 454 175V210C250 400 150 305 16 255Z"/>
+       <path class="rt-retina-edge" d="M16 220C150 270 250 365 454 175M16 255C150 305 250 400 454 210"/>
+       <path class="rt-rpe" d="M16 305C150 355 250 450 454 260V282C250 472 150 377 16 327Z"/>
+       <path class="rt-rpe-edge" d="M16 305C150 355 250 450 454 260M16 327C150 377 250 472 454 282"/>
+       <path class="rt-axis-corridor" d="M353 62 280 345"/>
+       <path class="rt-axis" d="M353 62 280 345"/>
        <g class="rt-overshoot">
-        <path d="M330 338 317 397" marker-end="url(#rt-arrow)"/>
-        <path class="rt-depth-stop" d="m313 334 34 8"/>
+        <path d="M280 345 270 394" marker-end="url(#rt-arrow)"/>
+        <path class="rt-depth-stop" d="m263 341 34 8"/>
        </g>
-       <circle class="rt-target-halo" cx="330" cy="338" r="17"/>
-       <circle class="rt-target" cx="330" cy="338" r="5"/>
-       <g class="rt-detail-needle" data-tip-x="330" data-tip-y="338" transform="translate(330 338) rotate(12.47)">
+       <circle class="rt-target-halo" cx="280" cy="345" r="22"/>
+       <circle class="rt-target" cx="280" cy="345" r="5"/>
+       <g class="rt-detail-needle" data-tip-x="280" data-tip-y="345" transform="translate(280 345) rotate(12.47)">
         <path class="rt-needle" d="M-4.2-315H4.2V-15L0 0-4.2-15Z"/>
         <path class="rt-needle-glint" d="M-1.5-310V-20"/>
        </g>
       </g>
       <g class="rt-drift">
-       <path class="rt-drift-arrow" d="m286 195 109 24" marker-start="url(#rt-arrow)" marker-end="url(#rt-arrow)"/>
-       <path class="rt-leader" d="M401 210H431"/>
-       <text class="rt-constraint" x="445" y="209">Limit lateral drift</text>
+       <path class="rt-drift-arrow" d="m258 214 102 23" marker-start="url(#rt-arrow)" marker-end="url(#rt-arrow)"/>
+       <path class="rt-leader" d="M365 228H438"/>
+       <text class="rt-constraint" x="452" y="221">No lateral or angular motion</text>
+       <text class="rt-note" x="452" y="244">after the insertion axis is locked</text>
       </g>
       <g class="rt-placement">
-       <path class="rt-target-leader" d="M343 326 399 117H429"/>
-       <text class="rt-emphasis" x="442" y="113">Precise placement</text>
-       <text class="rt-note" x="442" y="138">Micrometer-scale precision</text>
+       <path class="rt-target-leader" d="M300 337 418 104H440"/>
+       <text class="rt-emphasis" x="452" y="99">35 μm endpoint region</text>
+       <text class="rt-note" x="452" y="123">Micrometer-scale precision</text>
       </g>
       <g class="rt-depth-label">
-       <path class="rt-leader" d="M316 386H404"/>
-       <text class="rt-constraint" x="418" y="394">Prevent overshoot</text>
+       <path class="rt-leader" d="M270 389H438"/>
+       <text class="rt-constraint" x="452" y="394">No overshoot beyond the target</text>
       </g>
-      <text class="rt-tissue-label" x="35" y="292">Retina</text>
-      <text class="rt-target-label" x="35" y="330">Subretinal target</text>
-      <path class="rt-target-leader" d="M178 329 306 337"/>
-      <text class="rt-tissue-label rt-rpe-label" x="35" y="360">RPE</text>
+      <text class="rt-tissue-label" x="32" y="244">Retina</text>
+      <text class="rt-tissue-label rt-rpe-label" x="32" y="321">RPE</text>
      </svg>
-     <svg class="rt-mobile-detail" viewBox="0 0 400 440" role="img" aria-labelledby="retinal-mobile-title retinal-mobile-desc">
-      <title id="retinal-mobile-title">Precise placement beneath the retina</title>
-      <desc id="retinal-mobile-desc">The needle advances to the subretinal target above the retinal pigment epithelium, labelled RPE. Sideways motion is constrained and advancement stops at the target. The layer spacing is exaggerated for visibility.</desc>
+     <svg class="rt-mobile-detail" viewBox="0 0 400 460" role="img" aria-labelledby="retinal-mobile-title retinal-mobile-desc">
+      <title id="retinal-mobile-title">Magnified posterior retina showing precision and safety constraints</title>
+      <desc id="retinal-mobile-desc">A curved magnified continuation of the posterior retina shows the locked insertion axis, the 35 micrometer endpoint criterion, prohibited lateral motion, and overshoot beyond the target.</desc>
       <defs>
        <marker id="rt-mobile-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 6 4 1 7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker>
-       <clipPath id="rt-mobile-clip"><rect x="10" y="35" width="380" height="390" rx="8"/></clipPath>
+       <clipPath id="rt-mobile-clip"><rect x="10" y="35" width="380" height="415" rx="8"/></clipPath>
       </defs>
-      <text class="rt-detail-heading" x="12" y="27">At the target</text>
+      <text class="rt-detail-heading" x="12" y="27">Posterior retina · magnified</text>
       <g clip-path="url(#rt-mobile-clip)">
-       <path class="rt-retina" d="M10 272Q90 263 173 282T390 283V320Q283 336 173 319T10 309Z"/>
-       <path class="rt-retina-edge" d="M10 272Q90 263 173 282T390 283M10 309Q90 300 173 319T390 320"/>
-       <path class="rt-rpe" d="M10 351Q90 342 173 359T390 360V377Q283 389 173 375T10 369Z"/>
-       <path class="rt-rpe-edge" d="M10 351Q90 342 173 359T390 360"/>
-       <path class="rt-axis" d="M232 73 173 340"/>
-       <g class="rt-overshoot"><path d="M173 340 160 399" marker-end="url(#rt-mobile-arrow)"/><path class="rt-depth-stop" d="m156 336 34 8"/></g>
-       <circle class="rt-target-halo" cx="173" cy="340" r="15"/>
-       <circle class="rt-target" cx="173" cy="340" r="4"/>
-       <g class="rt-detail-needle" data-tip-x="173" data-tip-y="340" transform="translate(173 340) rotate(12.47)"><path class="rt-needle" d="M-4.2-315H4.2V-15L0 0-4.2-15Z"/><path class="rt-needle-glint" d="M-1.5-310V-20"/></g>
+       <path class="rt-retina" d="M10 210C105 250 170 350 390 155V191C170 386 105 286 10 246Z"/>
+       <path class="rt-retina-edge" d="M10 210C105 250 170 350 390 155M10 246C105 286 170 386 390 191"/>
+       <path class="rt-rpe" d="M10 295C105 335 170 435 390 240V262C170 457 105 357 10 317Z"/>
+       <path class="rt-rpe-edge" d="M10 295C105 335 170 435 390 240M10 317C105 357 170 457 390 262"/>
+       <path class="rt-axis-corridor" d="M263 54 200 335"/>
+       <path class="rt-axis" d="M263 54 200 335"/>
+       <g class="rt-overshoot"><path d="M200 335 190 385" marker-end="url(#rt-mobile-arrow)"/><path class="rt-depth-stop" d="m183 331 34 8"/></g>
+       <circle class="rt-target-halo" cx="200" cy="335" r="19"/>
+       <circle class="rt-target" cx="200" cy="335" r="4"/>
+       <g class="rt-detail-needle" data-tip-x="200" data-tip-y="335" transform="translate(200 335) rotate(12.47)"><path class="rt-needle" d="M-4.2-315H4.2V-15L0 0-4.2-15Z"/><path class="rt-needle-glint" d="M-1.5-310V-20"/></g>
       </g>
       <g class="rt-drift">
-       <path class="rt-drift-arrow" d="m131 200 93 20.5" marker-start="url(#rt-mobile-arrow)" marker-end="url(#rt-mobile-arrow)"/>
-       <text class="rt-constraint" x="244" y="212">Limit lateral<tspan x="244" dy="21">drift</tspan></text>
+       <path class="rt-drift-arrow" d="m155 204 92 20" marker-start="url(#rt-mobile-arrow)" marker-end="url(#rt-mobile-arrow)"/>
+       <text class="rt-constraint" x="255" y="210">Locked axis</text>
+       <text class="rt-note" x="255" y="231">No lateral or</text>
+       <text class="rt-note" x="255" y="249">angular motion</text>
       </g>
       <g class="rt-placement">
-       <path class="rt-target-leader" d="M184 329 226 115H236"/>
-       <text class="rt-emphasis" x="244" y="112">Precise<tspan x="244" dy="21">placement</tspan></text>
+       <path class="rt-target-leader" d="M217 328 235 104H247"/>
+       <text class="rt-emphasis" x="255" y="101">35 μm endpoint</text>
+       <text class="rt-note" x="255" y="122">Precision region</text>
       </g>
-      <g class="rt-depth-label"><path class="rt-leader" d="M160 393H233"/><text class="rt-constraint" x="244" y="396">Prevent<tspan x="244" dy="21">overshoot</tspan></text></g>
-      <text class="rt-tissue-label" x="20" y="292">Retina</text>
-      <text class="rt-target-label" x="20" y="335">Subretinal target</text>
-      <text class="rt-tissue-label rt-rpe-label" x="20" y="367">RPE</text>
+      <g class="rt-depth-label"><path class="rt-leader" d="M190 382H245"/><text class="rt-constraint" x="255" y="387">No overshoot</text></g>
+      <text class="rt-tissue-label" x="18" y="237">Retina</text>
+      <text class="rt-tissue-label rt-rpe-label" x="18" y="311">RPE</text>
      </svg>
     </div>
    </div>
    <figcaption class="retinal-task-caption" id="task-diagram-caption">
-    <span>Task schematic · not to scale</span>
+    <span>Task schematic</span>
     <button type="button" class="task-replay" aria-label="Replay needle-control task animation" hidden><svg width="15" height="15" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a6.5 6.5 0 1 1-.3 6M4 2v5h5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Replay</button>
    </figcaption>
   </figure>
-  <p class="task-takeaway">Align before entry. Advance along the insertion axis. Stop at the target.</p>
+  <p class="task-takeaway">Align before entry. Lock the insertion axis. Stop within 35 μm of the target.</p>
  </section>
 
  <section class="research-section" id="executable-policy" aria-labelledby="policy-title">
